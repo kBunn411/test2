@@ -1,3 +1,6 @@
+# Project Board
+https://github.com/orgs/cis3296f24/projects/96/views/1
+
 # Project Name
 Put here a short paragraph describing your project. 
 Adding an screenshot or a mockup of your application in action would be nice.  
