@@ -37,11 +37,11 @@ export default function Home() {
 					onClick={() => submitSearch(ingredients)}>
 					Search
 				</button>
-        <div className={styles.recipes}>
-          {recipes ? recipes.map((recipe, key) =>
-            <RecipeCard key={key} recipe={recipe}/>
-          ):<h1>No Recipes Found</h1>}
-        </div>
+				<div className={styles.recipes}>
+				{recipes ? recipes.map((recipe, key) =>
+					<RecipeCard key={key} recipe={recipe}/>
+				):<h1>No Recipes Found</h1>}
+				</div>
 			</div>
 		</div>
 	);
