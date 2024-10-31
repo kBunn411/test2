@@ -11,6 +11,7 @@
 //     totalResults:number
 // }
 export type RecipeResult = {
+		recipe: any
         title:string,
         image:string,
         imageType:string,
