@@ -21,7 +21,7 @@ export default function Home() {
         effect();
     }, []);
 
-<<<<<<< HEAD
+
     return (
         <div className={styles.container}>
             <h1 className={styles.header}>Recipe Finder</h1>
@@ -47,7 +47,7 @@ export default function Home() {
             </div>
         </div>
     );
-=======
+
 
 	return (
 		<div className={styles.container}>
@@ -73,5 +73,5 @@ export default function Home() {
 			</div>
 		</div>
 	);
->>>>>>> 5df9507b5833c07661183f381df50092d9f3ef04
+
 }
