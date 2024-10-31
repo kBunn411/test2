@@ -21,6 +21,7 @@ export default function Home() {
         effect();
     }, []);
 
+<<<<<<< HEAD
     return (
         <div className={styles.container}>
             <h1 className={styles.header}>Recipe Finder</h1>
@@ -46,4 +47,31 @@ export default function Home() {
             </div>
         </div>
     );
+=======
+
+	return (
+		<div className={styles.container}>
+			<h1 className={styles.header}>Recipe Finder</h1>
+			<div className={styles.search}>
+				<input
+					onChange={(e) => setIngredients(e.target.value)}
+					className={styles.input}
+					type="text"
+					id="ingredient"
+					placeholder="Enter ingredients (comma-separated)"
+				/>
+				<button
+					className={styles.button}
+					onClick={() => submitSearch(ingredients)}>
+					Search
+				</button>
+				<div className={styles.recipes}>
+				{recipes ? recipes.map((recipe, key) =>
+					<RecipeCard key={key} recipe={recipe}/>
+				):<h1>No Recipes Found</h1>}
+				</div>
+			</div>
+		</div>
+	);
+>>>>>>> 5df9507b5833c07661183f381df50092d9f3ef04
 }
