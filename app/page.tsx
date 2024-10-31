@@ -26,6 +26,7 @@ export default function Home() {
         <div className={styles.container}>
             <h1 className={styles.header}>Recipe Finder</h1>
             <div className={styles.top}>Keith was here</div>
+			<div className={styles.left}>Katerina was here</div>
             <div className={styles.search}>
                 <input
                     onChange={(e) => setIngredients(e.target.value)}
