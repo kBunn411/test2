@@ -68,3 +68,11 @@
 .recipeCard a:hover {
   text-decoration: underline;
 }
+.top {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 16px;
+  color: blue;
+}
+
