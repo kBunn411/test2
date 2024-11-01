@@ -57,8 +57,8 @@ export default function Home() {
                     ) : <h1>No Recipes Found</h1>}
                 </div>
                 <div className={styles.calvin}>Calvin was here</div>
-            </div>
         </div>
+        
     );
 
 
