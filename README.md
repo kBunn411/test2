@@ -20,3 +20,6 @@ After following the steps above to install the project all you have to odo now i
 
 # How to contribute
 Follow this project here to know the latest status: https://github.com/cis3296f24/project-01-Super-Chef
+
+# Link to current website
+https://project-01-super-chef.vercel.app/
