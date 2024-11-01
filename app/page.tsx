@@ -26,7 +26,7 @@ export default function Home() {
         <div className={styles.container}>
             <h1 className={styles.header}>Recipe Finder</h1>
             <div className={styles.top}>Keith was here</div>
-			<div className={styles.left}>Katerina was here</div>
+            <div className={styles.left}>Katerina was here</div>
             <div className={styles.search}>
                 <input
                     onChange={(e) => setIngredients(e.target.value)}
@@ -42,14 +42,13 @@ export default function Home() {
                 </button>
                 <div className={styles.recipes}>
                     {recipes ? recipes.map((recipe, key) =>
-                        <RecipeCard key={key} recipe={recipe} /> // Now passing the full RecipeResult
+                        <RecipeCard key={key} recipe={recipe}/> // Now passing the full RecipeResult
                     ) : <h1>No Recipes Found</h1>}
                 </div>
+                <div className={styles.calvin}>Calvin was here</div>
             </div>
         </div>
     );
 
-
-	
 
 }
