@@ -8,17 +8,15 @@ inspiration, Super-Chef makes meal planning easy, efficient, and fun. Let Super-
 Adding an screenshot or a mockup of your application in action would be nice.  
 <img width="1470" alt="Screenshot 2024-10-31 at 4 46 45 PM" src="https://github.com/user-attachments/assets/6f02178a-916e-412c-a60d-84d56cd785b7">
 
+# How to install
+1) Make sure you have Node.js installed. If you do not follow the steps from this website: https://nodejs.org/en
+2) We recommend Webstorm as the IDE, but anything that can be used to sufficiently develop Web Apps is also fine. As
+long as you can clone this repo. Do that by going to the home page of this repo and hitting the green "<>Code"
+button. Use that url to clone the repo into whatever IDE you chose.
+3) Aftert that you need to install the dependencies needed. So in your terminal navigate to the project directory if not already there and then enter "npm install". This should install everyting you need. And you are all set.
+
 # How to run
--Make sure you have node installed prior to trying to run this application!!
--clone the repository or download zip and extract the file
--In the root folder install dependencies and run developer mode
-```
-npm install
-npm run dev
-```
-- You can now visit http:localhost:3000/ and view the project
+After following the steps above to install the project all you have to odo now in the same terminal is type "npm run dev" and that should sart the web page hosted locally. You can now visit http:localhost:3000/ and view the project
 
 # How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
-
-
+Follow this project here to know the latest status: https://github.com/cis3296f24/project-01-Super-Chef
