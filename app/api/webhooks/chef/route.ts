@@ -61,8 +61,8 @@ export async function POST(req: Request) {
         if (email_addresses.length > 0) {
             const user = {
                 ChefID: id,
-                firstname: first_name,
-                lastname: last_name,
+                firstName: first_name,
+                lastName: last_name,
                 email: email_addresses[0].email_address,
                 username: username,
             };

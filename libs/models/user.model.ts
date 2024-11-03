@@ -41,7 +41,7 @@ const UserSchema = new Schema({
 
     numbers: {
         type: [Number]
-      },
+      }
 
 
 })
