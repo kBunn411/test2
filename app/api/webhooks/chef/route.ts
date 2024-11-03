@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 import { clerkClient } from "@clerk/clerk-sdk-node";
 
 
-import { CreateUser } from '@/libs/actions/user.actions'
+import { CreateUser } from '@/libs/actions/user.action'
 export async function POST(req:Request) {
 
 
