@@ -3,7 +3,7 @@ import { unique } from "next/dist/build/utils";
 
 const UserSchema = new Schema({
     chefID:{
-        type: Number,
+        type: String,
         required: true,
         unique: true,
     },
