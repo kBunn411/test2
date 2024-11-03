@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             'svix-signature': svix_signature,
         }) as WebhookEvent;
     } catch (err) {
-        console.error('Error verifying webhook:', err.message || err);
+        console.error('Error verifying webhook:', err);
         return new Response('Error occurred during verification', { status: 400 });
     }
 
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
 
     // CREATE USER in MongoDB
     if (eventType === "user.created") {
-        const { first_name, last_name, email_addresses, username } = evt.data;
+        const { id,first_name, last_name, email_addresses, username } = evt.data;
 
         // Check if email_addresses is not empty
         if (email_addresses.length > 0) {
