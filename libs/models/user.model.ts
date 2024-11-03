@@ -33,11 +33,6 @@ const UserSchema = new Schema({
         unique: true,
     },
 
-    password:{
-        type: String,
-        required: true,
-        unique: true,
-    },
 
     numbers: {
         type: [Number]
