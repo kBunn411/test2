@@ -8,7 +8,7 @@ interface MongooseConn{
     promise: Promise<Mongoose> | null;
 }
 
-let cached: any = (global as any).mongoose
+let cached: MongooseConn = (global as any).mongoose
 
 if (!cached){
     cached = (global as any).mongoose = {
