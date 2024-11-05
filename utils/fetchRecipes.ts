@@ -1,11 +1,11 @@
 import { RecipeResult } from "@/types/RecipeResponseType";
 
-export async function searchRecipes(ingredientInput:string):Promise<any> {
+export async function searchRecipes(ingredientInput?:string, random:boolean=false):Promise<any> {
     const edamamID= "e1a01707";
     const appKey ="11c9ef351bc78989bf4b9080c390c2e7"
 
     const apiKey = 'c10ca9a605364987997f3cf1cb186c63' //my key
-    const apiUrl = `https://api.edamam.com/api/recipes/v2?type=any&q=${ingredientInput}&app_id=e1a01707&app_key=11c9ef351bc78989bf4b9080c390c2e7`;
+    const apiUrl = `https://api.edamam.com/api/recipes/v2?type=any&q=${ingredientInput}&random=${random}&app_id=e1a01707&app_key=11c9ef351bc78989bf4b9080c390c2e7`;
   console.log(ingredientInput)
     try {
       const response = await fetch(apiUrl);
