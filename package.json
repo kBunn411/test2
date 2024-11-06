@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.0.58",
+    "@clerk/nextjs": "^6.1.3",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.8.0",
     "next": "15.0.2",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
-    "recipefinder": "file:"
+    "recipefinder": "file:",
+    "svix": "^1.37.0"
   },
   "devDependencies": {
     "@types/node": "^20",
