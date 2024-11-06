@@ -1,94 +1,135 @@
+/* styles.module.css */
 
+/* Container styling */
 .container {
-  max-width: 800px;
-  margin: 50px auto;
-  
-}
-
-.header {
-  font-size: 36px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.search {
-  margin-bottom: 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
 }
-
-.input {
-  width: 70%;
-  padding: 10px;
-  font-size: 16px;
-} 
-
- .button {
-  padding: 10px;
-  margin-left: 5px;
-  font-size: 16px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-} 
-
-.button:hover {
-  background-color: #218838;
-} 
 
 .recipes {
-  margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
 }
 
 .recipeCard {
-  background-color: white;
+  background-color: #fffaf0;
+  border: 2px solid #f0d9b5;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.recipeCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 .recipeCard img {
   width: 100%;
   border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.recipeCard img:hover {
+  transform: scale(1.05);
 }
 
 .recipeCard h3 {
   margin: 10px 0;
-  font-size: 18px;
+  font-size: 1.2rem;
   color: #333;
+  font-family: 'Comic Sans MS', cursive;
+  text-align: center;
 }
 
 .recipeCard a {
   text-decoration: none;
-  color: #007bff;
+  color: #ff7f50;
+  font-weight: bold;
+  transition: color 0.2s ease;
 }
 
 .recipeCard a:hover {
+  color: #ff6347;
   text-decoration: underline;
 }
-.top {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 16px;
-  color: blue;
+
+/* Writing animation for the SVG header */
+.header {
+  font-size: 3.5rem;
+  font-family: 'Pacifico', cursive;
+  fill: black;
+  stroke: #333;
+  stroke-width: 2;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 3s ease forwards;
 }
 
-.left {
-  position: absolute;
-  top: 10px;
-  left: 20px;
-  font-size: 16px;
-  color: rgb(255, 0, 0);
+/* Writing animation keyframes */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-.calvin {
-  position: absolute;
-  font-size: 19px;
-  color: pink;
+/* Search area styling */
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
 }
 
+/* Input styling */
+.input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #f0d9b5;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  outline: none;
+  font-size: 1rem;
+  max-width: 400px;
+}
 
+/* Button styling */
+.button {
+  padding: 10px 20px;
+  background-color: #ffa07a;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
