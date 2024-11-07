@@ -10,7 +10,7 @@ const RandomPage = () => {
 
     useEffect(() => {
         const effect = async () => {
-            const recipeResult = await searchRecipes(); // No arguments for random search
+            const recipeResult = await searchRecipes();
             if (recipeResult) {
                 setRecipes(recipeResult.map((result: any) => ({
                     title: result.recipe.label,
