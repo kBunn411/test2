@@ -1,7 +1,7 @@
 import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
 
-const RecipeCard = ({ recipe }: { recipe: RecipeResult }) => {
+const RecipeCard = ({ recipe,onSave }: { recipe: RecipeResult, onSave: (recipe:RecipeResult) => void }) => {
 	return (
 		<div className={styles.recipeCard}>
 			<img
@@ -16,6 +16,9 @@ const RecipeCard = ({ recipe }: { recipe: RecipeResult }) => {
 			>
 				View Recipe
 			</a>
+			<button className={styles.saveButton} onClick={() => onSave(recipe)}>
+				Save Recipe
+			</button>
 		</div>
 	);
 };

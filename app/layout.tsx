@@ -24,6 +24,7 @@ export default function RootLayout({
             <body>
             <header className={styles.header}>
                 <a href="/" className={styles.homeButton}>Home</a>
+                <a href="/savedRecipes" className={styles.homeButton}>Saved Recipes</a>
                 <div className={styles.welcomeMessage}>Welcome to SuperChef!</div>
                 <div className={styles.authButtonContainer}>
                     <SignedOut>

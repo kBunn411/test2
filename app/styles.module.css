@@ -68,17 +68,18 @@
   text-decoration: underline;
 }
 
-/* Writing animation for the SVG header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #ffe4b5; /* Soft peach background */
+  background-color: #ffe4b5;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 /* Home button styling */
@@ -177,14 +178,14 @@
 }
 
 .card {
-  background-color: #fffaf0;
+  background-color: #ffe4b5;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
   max-width: 600px;
   width: 100%;
   text-align: center;
   margin-top: 20px;
+
 }
 .welcomeMessage {
   font-size: 1.2rem;
@@ -202,4 +203,21 @@
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
   animation: draw 3s ease forwards;
+}
+
+.saveButton{
+  padding:8px 16px;
+  background-color: #ffa07a;
+  color: white;
+  border:none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; ;
+}
+
+.saveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }

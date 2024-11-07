@@ -10,6 +10,7 @@ export default function Home() {
     const [recipes, setRecipes] = useState<RecipeResult[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
 
+    // Function to submit a search with ingredients
     const submitSearch = useCallback((ingredients: string) => {
         const effect = async () => {
             setHasSearched(true);
@@ -27,6 +28,7 @@ export default function Home() {
         effect();
     }, []);
 
+    // Function to fetch random recipes
     const fetchRandomRecipes = useCallback(() => {
         const effect = async () => {
             setHasSearched(true);
@@ -42,6 +44,28 @@ export default function Home() {
             }
         };
         effect();
+    }, []);
+
+    // Function to save recipes
+    const saveRecipe = useCallback(async (recipe: RecipeResult) => {
+        try {
+            const response = await fetch('/api/saveRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ recipe }),
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert('Recipe saved successfully!');
+            } else {
+                alert('Failed to save recipe');
+                console.error(result);
+            }
+        } catch (error) {
+            console.error('Error saving recipe:', error);
+        }
     }, []);
 
     return (
@@ -74,12 +98,13 @@ export default function Home() {
                 </div>
             </div>
 
+            {/* Recipes display section */}
             <div className={styles.recipes}>
                 {hasSearched && recipes.length === 0 ? (
                     <h1>No Recipes Found</h1>
                 ) : (
                     recipes.map((recipe, key) => (
-                        <RecipeCard key={key} recipe={recipe} />
+                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe} />
                     ))
                 )}
             </div>
