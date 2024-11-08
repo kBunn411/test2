@@ -12,7 +12,7 @@ export default function Home() {
     const [hasSearched, setHasSearched] = useState(false);
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedDietLabel, setSelectedDietLabel] = useState<string | null>(null);
-    const router = useRouter();
+
 
     const dietLabels = [
         "balanced",
