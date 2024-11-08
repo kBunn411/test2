@@ -2,6 +2,7 @@ import mongoose, {Mongoose} from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URL!;
 
+console.log("MongoDB URL:", MONGODB_URL);
 
 interface MongooseConn{
     conn: Mongoose | null;
