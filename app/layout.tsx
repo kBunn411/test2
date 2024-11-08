@@ -5,13 +5,12 @@ import {
     SignedOut,
     UserButton
 } from '@clerk/nextjs';
-import Link from 'next/link';
 import './globals.css';
 import styles from './styles.module.css';
 
 export default function RootLayout({
-    children,
-}: {
+                                       children,
+                                   }: {
     children: React.ReactNode;
 }) {
     return (
@@ -24,12 +23,8 @@ export default function RootLayout({
             </head>
             <body>
             <header className={styles.header}>
-                <Link href="/" passHref>
-                    <a className={styles.homeButton}>Home</a>
-                </Link>
-                <Link href="/savedRecipes" passHref>
-                    <a className={styles.homeButton}>Saved Recipes</a>
-                </Link>
+                <a href="/" className={styles.homeButton}>Home</a>
+                <a href="/savedRecipes" className={styles.homeButton}>Saved Recipes</a>
                 <div className={styles.welcomeMessage}>Welcome to SuperChef!</div>
                 <div className={styles.authButtonContainer}>
                     <SignedOut>
@@ -38,7 +33,7 @@ export default function RootLayout({
                         </SignInButton>
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
+                        <UserButton/>
                     </SignedIn>
                 </div>
             </header>
