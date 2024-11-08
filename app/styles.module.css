@@ -183,17 +183,24 @@
   display: inline-block;
 }
 
-.search .dropdown-content {
-  display: block;
-  position: fixed; 
+.search .dropdownContent {
+  padding: 10px 20px;
+  background-color: #ffa07a;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive;
+  display: inline-block; 
   top: 100%; 
   left: 0;
-  background-color: white;
   width: 100%;
   z-index: 1;
 }
 
-.search .dropdown-content button {
+.search .dropdownContent button {
   padding: 10px 20px;
   background-color: #ffa07a;
   color: white;

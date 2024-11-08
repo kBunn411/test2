@@ -69,11 +69,15 @@ export default function Home() {
         const effect = async () => {
             setHasSearched(true);
             const recipeResult = await searchRecipes();
+            recipeResult.forEach((result: any, index: number) => {
+                console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
+            });
             if (recipeResult && recipeResult.length > 0) {
                 setRecipes(recipeResult.map((result: any) => ({
                     title: result.recipe.label,
                     image: result.recipe.image,
-                    link: result.recipe.shareAs
+                    link: result.recipe.shareAs,
+                    dietLabels: result.recipe.dietLabels
                 })));
             } else {
                 setRecipes([]);
