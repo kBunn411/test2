@@ -22,3 +22,5 @@ export async function searchRecipes(ingredientInput = "", mealType = ""): Promis
         return [];
     }
 }
+
+

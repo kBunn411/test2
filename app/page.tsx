@@ -8,27 +8,62 @@ import RecipeCard from '@/components/RecipeCard';
 
 export default function Home() {
     const [ingredients, setIngredients] = useState('');
+    const [allRecipes, setAllRecipes] = useState<RecipeResult[]>([]);
     const [recipes, setRecipes] = useState<RecipeResult[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [selectedDietLabel, setSelectedDietLabel] = useState<string | null>(null);
     const router = useRouter();
+
+    const dietLabels = [
+        "balanced",
+        "high-fiber",
+        "high-protein",
+        "low-carb",
+        "low-fat",
+        "low-sodium"
+    ];
 
     const submitSearch = useCallback((ingredients: string) => {
         const effect = async () => {
             setHasSearched(true);
             const recipeResult = await searchRecipes(ingredients);
+            recipeResult.forEach((result: any, index: number) => {
+                console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
+            });
             if (recipeResult && recipeResult.length > 0) {
-                setRecipes(recipeResult.map((result: any) => ({
+                const formattedRecipes = recipeResult.map((result: any) => ({
                     title: result.recipe.label,
                     image: result.recipe.image,
-                    link: result.recipe.shareAs
-                })));
+                    link: result.recipe.shareAs,
+                    dietLabels: result.recipe.dietLabels || []
+                }));
+                setAllRecipes(formattedRecipes);
+                setRecipes(formattedRecipes);
+
             } else {
                 setRecipes([]);
+                setAllRecipes([]);
             }
         };
         effect();
     }, []);
+    const toggleDropdown = () => {
+        setDropdownVisible(prevVisible => !prevVisible);
+    };
 
+    const filterResults = (filter: string) => {
+        setSelectedDietLabel(filter);
+        
+        setRecipes(prevRecipes => 
+            prevRecipes.filter(recipe => 
+                recipe.dietLabels &&
+                recipe.dietLabels.map((label: string) => label.toLowerCase()).includes(filter)
+            )
+        )
+    };
+    
+    
     return (
         <div className={styles.container}>
             {/* SVG for the header with "writing" animation */}
@@ -57,7 +92,36 @@ export default function Home() {
                 >
                     Get a Random Recipe
                 </button>
+
+                <div className={styles.dropdown}>
+                    {hasSearched && (
+                        <>
+                            <button onClick={toggleDropdown} className={styles.button}>
+                                Diet Type
+                            </button>
+                            {dropdownVisible && (
+                                <div className={styles.dropdownContent}>
+                                    {dietLabels.map((label, index) => (
+                                        <button
+                                            key={index}
+                                            style={{ display: 'block' }}
+                                            onClick={() => filterResults(label)}
+                                        >
+                                            {label}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+                
+                
             </div>
+            
+            
+            
+            
 
             <div className={styles.recipes}>
                 {hasSearched && recipes.length === 0 ? (
