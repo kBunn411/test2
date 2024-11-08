@@ -177,6 +177,47 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.search .dropdownContent {
+  padding: 10px 20px;
+  background-color: #ffa07a;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive;
+  display: inline-block; 
+  top: 100%; 
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.search .dropdownContent button {
+  padding: 10px 20px;
+  background-color: #ffa07a;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive;
+  display: inline-block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
 .card {
   background-color: #ffe4b5;
   padding: 20px;

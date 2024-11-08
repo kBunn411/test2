@@ -15,5 +15,6 @@ export type RecipeResult = {
         title:string,
         image:string,
         imageType:string,
-        link:string
+        link:string,
+        dietLabels:string[]
 }
