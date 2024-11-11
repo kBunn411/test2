@@ -149,7 +149,7 @@ const UserProfilePage: React.FC = () => {
                 <a href="https://test2-sigma-six.vercel.app/" target="_blank" rel="noopener noreferrer"
                    className={styles.homeButton}>
                     SuperChef
-                    <img src="app/images/chefhat.png" className={styles.chefHat} alt="Chef Hat" />
+                    <img src="images/chefhat.png" className={styles.chefHat} alt="Chef Hat" />
                 </a>
             </div>
         </div>
