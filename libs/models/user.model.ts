@@ -32,12 +32,10 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
     },
+    
 
 
-    numbers: {
-        type: [Number]
-      }
-
+    
 
 })
 
