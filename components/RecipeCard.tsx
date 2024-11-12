@@ -1,21 +1,19 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
 
 const RecipeCard = ({ recipe, onSave }: { recipe: RecipeResult; onSave: (recipe: RecipeResult) => void }) => {
     const router = useRouter();
+    const recipeId = recipe.uri?.split("recipe_")[1]
 
     const viewRecipeDetails = () => {
-        router.push({
-            pathname: `/recipe-details`,
-            query: { title: recipe.title, image: recipe.image, dietLabels: recipe.dietLabels.join(','), link: recipe.link },
-        });
+        router.push(`/recipeDetails/${recipeId}`);
     };
 
     return (
         <div className={styles.recipeCard}>
-            <img src={recipe.image} alt={recipe.title} />
-            <h3>{recipe.title}</h3>
+            <img src={recipe.image} alt={recipe.label} />
+            <h3>{recipe.label}</h3>
             <button className={styles.viewButton} onClick={viewRecipeDetails}>
                 View Recipe
             </button>
@@ -25,5 +23,6 @@ const RecipeCard = ({ recipe, onSave }: { recipe: RecipeResult; onSave: (recipe:
         </div>
     );
 };
+
 
 export default RecipeCard;
