@@ -1,6 +1,6 @@
 'use client';
 import styles from './styles.module.css';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { searchRecipes } from '@/utils/fetchRecipes';
 import { RecipeResult } from '@/types/RecipeResponseType';
 import RecipeCard from '@/components/RecipeCard';
@@ -136,36 +136,33 @@ export default function Home() {
                         Random
                     </button>
 
-                <div className={styles.dropdown}>
-                    {hasSearched && (
-                        <>
-                            <button onClick={toggleDropdown} className={styles.button}>
-                                Diet Type
-                            </button>
-                            {dropdownVisible && (
-                                <div className={styles.dropdownContent}>
-                                    {dietLabels.map((label, index) => (
-                                        <button
-                                            key={index}
-                                            style={{ display: 'block' }}
-                                            onClick={() => filterResults(label)}
-                                        >
-                                            {label}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-                
-                
+                    <div className={styles.dropdown}>
+                        {hasSearched && (
+                            <>
+                                <button onClick={toggleDropdown} className={styles.button}>
+                                    Diet Type
+                                </button>
+                                {dropdownVisible && (
+                                    <div className={styles.dropdownContent}>
+                                        {dietLabels.map((label, index) => (
+                                            <button
+                                                key={index}
+                                                style={{display: 'block'}}
+                                                onClick={() => filterResults(label)}
+                                            >
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+
+
                 </div>
             </div>
-            
-            
-            
-            
+
 
             {/* Recipes display section */}
             <div className={styles.recipes}>
@@ -173,10 +170,18 @@ export default function Home() {
                     <h1>No Recipes Found</h1>
                 ) : (
                     recipes.map((recipe, key) => (
-                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe} />
+                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe}/>
                     ))
                 )}
             </div>
+
+
+            <div className={styles.profileImage}>
+                <a href="http://localhost:3000/profile" target="_blank" rel="noopener noreferrer">
+                    <img src="images/profile.png" className={styles.profileImage} alt="profile image"/>
+                </a>
+            </div>
+
         </div>
     );
 }
