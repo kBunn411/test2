@@ -33,10 +33,11 @@ export default function Home() {
             });
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
-                    title: result.recipe.label,
+                    label: result.recipe.label,
                     image: result.recipe.image,
                     link: result.recipe.shareAs,
-                    dietLabels: result.recipe.dietLabels || []
+                    dietLabels: result.recipe.dietLabels || [],
+                    uri: result.recipe.uri || ""
                 }));
                 setAllRecipes(formattedRecipes);
                 setRecipes(formattedRecipes);
@@ -74,7 +75,7 @@ export default function Home() {
             });
             if (recipeResult && recipeResult.length > 0) {
                 setRecipes(recipeResult.map((result: any) => ({
-                    title: result.recipe.label,
+                    label: result.recipe.label,
                     image: result.recipe.image,
                     link: result.recipe.shareAs,
                     dietLabels: result.recipe.dietLabels
