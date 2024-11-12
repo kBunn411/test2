@@ -34,7 +34,7 @@ export default function Home() {
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
                     title: result.recipe.label,
-                    image: result.recipe.image,
+                    image: resnult.recipe.image,
                     link: result.recipe.shareAs,
                     dietLabels: result.recipe.dietLabels || []
                 }));
