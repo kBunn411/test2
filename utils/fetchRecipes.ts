@@ -12,7 +12,7 @@ export async function searchRecipes(ingredientInput = "", mealType = ""): Promis
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        return data.hits.slice(0, 15);
+        return data.hits;
     } catch (error) {
         console.error("Error fetching recipes:", error);
         return [];
