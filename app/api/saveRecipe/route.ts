@@ -16,10 +16,12 @@ export async function POST(req: NextRequest) {
 
         const newSavedRecipe = new SavedRecipe({
             userId,
-            title: recipe.title,
+            title: recipe.label,
             image: recipe.image,
             link: recipe.link,
         });
+
+        
 
         await newSavedRecipe.save();
         return NextResponse.json({ message: 'Recipe saved successfully!' });

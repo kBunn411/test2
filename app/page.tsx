@@ -163,7 +163,7 @@ export default function Home() {
 
                 </div>
             </div>
-
+            
 
             {/* Recipes display section */}
             <div className={styles.recipes}>
@@ -177,11 +177,7 @@ export default function Home() {
             </div>
 
 
-            <div className={styles.profileImage}>
-                <a href="http://localhost:3000/profile" target="_blank" rel="noopener noreferrer">
-                    <img src="images/profile.png" className={styles.profileImage} alt="profile image"/>
-                </a>
-            </div>
+            
 
         </div>
     );
