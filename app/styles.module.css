@@ -216,7 +216,10 @@
 
 .dropdown a:hover {background-color: #ddd;}
 
-.show {display: block;}
+.active{
+    background-color: #f88457; /* Green highlight for active filters */
+    color: white;
+}
 
 .card {
   background-color: #ffe4b5;

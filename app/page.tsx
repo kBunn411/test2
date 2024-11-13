@@ -12,6 +12,7 @@ export default function Home() {
     const [hasSearched, setHasSearched] = useState(false);
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedDietLabel, setSelectedDietLabel] = useState<string | null>(null);
+    const [activeFilters, setActiveFilters] = useState(new Set<string>());
 
 
     const dietLabels = [
@@ -53,16 +54,37 @@ export default function Home() {
         setDropdownVisible(prevVisible => !prevVisible);
     };
 
-    const filterResults = (filter: string) => {
-        setSelectedDietLabel(filter);
+    const filterResults = (filters: Set <string>) => {
+        if(filters.size==0){
+            setRecipes(allRecipes);
+        }
+        else{
+            setRecipes(
+                allRecipes.filter(recipe =>
+                    Array.from(filters).every(filter =>
+                        recipe.dietLabels &&
+                        recipe.dietLabels.map((label: string) => label.toLowerCase()).includes(filter)
+                    )
+                )
+            );
+        }
         
-        setRecipes(prevRecipes => 
-            prevRecipes.filter(recipe => 
-                recipe.dietLabels &&
-                recipe.dietLabels.map((label: string) => label.toLowerCase()).includes(filter)
-            )
-        )
     };
+    const toggleFilter = (filter:string) =>{
+        setActiveFilters(prevFilters =>{
+            const newFilters = new Set(prevFilters);
+            if (newFilters.has(filter)) {
+                newFilters.delete(filter); 
+                console.log("Removed filter: %s", filter);
+            } else {
+                newFilters.add(filter); 
+                console.log("Added filter: %s", filter);
+            }
+            filterResults(newFilters);
+            return newFilters;
+        }
+        )
+        }
     
     
     // Function to fetch random recipes
@@ -74,14 +96,18 @@ export default function Home() {
                 console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
             });
             if (recipeResult && recipeResult.length > 0) {
-                setRecipes(recipeResult.map((result: any) => ({
+                const formattedRecipes = recipeResult.map((result: any) => ({
                     label: result.recipe.label,
                     image: result.recipe.image,
                     link: result.recipe.shareAs,
-                    dietLabels: result.recipe.dietLabels
-                })));
+                    dietLabels: result.recipe.dietLabels || []
+                }));
+                setAllRecipes(formattedRecipes);
+                setRecipes(formattedRecipes);
+
             } else {
                 setRecipes([]);
+                setAllRecipes([]);
             }
         };
         effect();
@@ -149,7 +175,7 @@ export default function Home() {
                                             <button
                                                 key={index}
                                                 style={{display: 'block'}}
-                                                onClick={() => filterResults(label)}
+                                                onClick={() => toggleFilter(label)}
                                             >
                                                 {label}
                                             </button>
