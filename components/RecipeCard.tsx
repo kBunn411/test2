@@ -10,10 +10,15 @@ const RecipeCard = ({ recipe, onSave }: { recipe: RecipeResult; onSave: (recipe:
         router.push(`/recipeDetails/${recipeId}`);
     };
 
+    console.log("RecipeCard received recipesss:", recipe);
+   
+
     return (
+
+        
         <div className={styles.recipeCard}>
             <img src={recipe.image} alt={recipe.label} />
-            <h3>{recipe.label}</h3>
+            <h3>{recipe.label || recipe.title}</h3>
             <button className={styles.viewButton} onClick={viewRecipeDetails}>
                 View Recipe
             </button>
