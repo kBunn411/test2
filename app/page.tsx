@@ -32,6 +32,7 @@ export default function Home() {
             recipeResult.forEach((result: any, index: number) => {
                 console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
             });
+            console.log("result length: %d",recipeResult.length);
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
                     label: result.recipe.label,
