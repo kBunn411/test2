@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
         await connect();
         const savedRecipes = await SavedRecipe.find({ userId });
-
+        
         return NextResponse.json(savedRecipes);
     } catch (error) {
         console.error('Error retrieving saved recipes:', error);

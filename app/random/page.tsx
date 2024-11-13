@@ -56,6 +56,7 @@ const RandomPage = () => {
                 )}
             </div>
         </div>
+        
     );
 };
 

@@ -1,159 +1,177 @@
-"use client";
-import React, { useState } from 'react';
-import styles from './profile.module.css';
+'use client';  // Ensure this is a client-side component
 
-interface UserProfile {
-    name: string;
-    email: string;
-    profilePicture: string;
-    bio: string;
-    country: string;
-    city: string;
-    phone: string;
-    favoriteCuisine: string;
-    age: number;
-    socialMedia?: {
-        yelp?: string;
-        facebook?: string;
-        instagram?: string;
-    };
-}
+import { useEffect, useState } from 'react';
+import { useUser } from '@clerk/nextjs';  // Clerk's React hook to access the authenticated user
 
-const userProfileData: UserProfile = {
-    name: "Johnny Appleseed",
-    email: "johnnyappleseed@gmail.com",
-    profilePicture: "/images/johnny.jpg",
-    bio: "Farmer ~ Horse Rider ~ Apple Lover.",
-    country: "United States",
-    city: "Philadelphia",
-    phone: "+1 (267) 541-7000",
-    favoriteCuisine: "Chinese",
-    age: 22,
-    socialMedia: {
-        yelp: "https://www.yelp.com/user_details?userid=hJwV8bVkmkTRbyuE9X_Kcw",
-        facebook: "https://www.facebook.com/",
-        instagram: "https://www.instagram.com/"
-    }
-};
+const Profile = () => {
+    const { user } = useUser();  // Retrieve authenticated user data from Clerk
+    const [profile, setProfile] = useState<any>(null);  // State to store user profile data
+    const [formData, setFormData] = useState<any>({});  // State to handle form input changes
+    const [isEditing, setIsEditing] = useState(false);  // Track whether we're in editing mode
 
-const UserProfilePage: React.FC = () => {
-    const [user, setUser] = useState<UserProfile>(userProfileData);
-    const [isEditing, setIsEditing] = useState(false);
-    const [bio, setBio] = useState(user.bio);
-    const [country, setCountry] = useState(user.country);
-    const [city, setCity] = useState(user.city);
-    const [phone, setPhone] = useState(user.phone);
-    const [favoriteCuisine, setFavoriteCuisine] = useState(user.favoriteCuisine);
-    const [age, setAge] = useState(user.age);
+    // Fetch the user profile data from the API
+    useEffect(() => {
+        if (user) {
+            const fetchProfile = async () => {
+                const response = await fetch('/api/userProfile');
+                if (response.ok) {
+                    const data = await response.json();
+                    setProfile(data);
+                    setFormData(data);  // Set initial form data to the user's profile
+                }
+            };
 
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };
+            fetchProfile();
+        }
+    }, [user]);  // Re-fetch profile when the user object changes (i.e., when logged in)
 
-    const handleSaveClick = () => {
-        setUser(prevUser => ({
-            ...prevUser,
-            bio: bio,
-            country: country,
-            city: city,
-            phone: phone,
-            favoriteCuisine: favoriteCuisine,
-            age: age,
+    // Handle input changes in the form
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev: any) => ({
+            ...prev,
+            [name]: value,
         }));
-        setIsEditing(false);
     };
 
-    const handleCancelClick = () => {
-        setBio(user.bio);
-        setCountry(user.country);
-        setCity(user.city);
-        setPhone(user.phone);
-        setFavoriteCuisine(user.favoriteCuisine);
-        setAge(user.age);
-        setIsEditing(false);
+    // Handle form submission to update the user profile
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const response = await fetch('/api/userProfile', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            const updatedUser = await response.json();
+            setProfile(updatedUser);  // Update profile with the latest data
+            setIsEditing(false);  // Exit edit mode
+            alert('Profile updated successfully!');
+        } else {
+            alert('Failed to update profile.');
+        }
     };
+
+    // Show loading state while fetching user data
+    if (!profile) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.picNameBioHeader}>
-                <img src={user.profilePicture} className={styles.profilePicture} alt={`${user.name}'s profile`} />
-                <h1 className={styles.name}>{user.name}</h1>
-                {isEditing ? (
-                    <textarea
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                        className={styles.bioEdit}
-                    />
-                ) : (
-                    <p className={styles.bio}>{user.bio}</p>
-                )}
-            </div>
+        <div>
+            <h1>Profile</h1>
+            
+            {!isEditing ? (
+                <div>
+                    <p><strong>Bio:</strong> {profile.bio}</p>
+                    <p><strong>Country:</strong> {profile.country}</p>
+                    <p><strong>City:</strong> {profile.city}</p>
+                    <p><strong>Phone:</strong> {profile.phone}</p>
+                    <p><strong>Favorite Cuisine:</strong> {profile.favoriteCuisine}</p>
+                    <p><strong>Age:</strong> {profile.age}</p>
+                    <p><strong>Social Media:</strong></p>
+                    <p>Facebook: {profile.socialMedia?.facebook}</p>
+                    <p>Instagram: {profile.socialMedia?.instagram}</p>
+                    <p>Yelp: {profile.socialMedia?.yelp}</p>
 
-            <div className={styles.profileDetails}>
-                <h2>Contact Information</h2>
-                <p><strong>Email:</strong> {user.email}</p>
-            </div>
+                    <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Bio</label>
+                        <textarea
+                            name="bio"
+                            value={formData.bio || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Country</label>
+                        <input
+                            type="text"
+                            name="country"
+                            value={formData.country || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>City</label>
+                        <input
+                            type="text"
+                            name="city"
+                            value={formData.city || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Phone</label>
+                        <input
+                            type="text"
+                            name="phone"
+                            value={formData.phone || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Favorite Cuisine</label>
+                        <input
+                            type="text"
+                            name="favoriteCuisine"
+                            value={formData.favoriteCuisine || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Age</label>
+                        <input
+                            type="number"
+                            name="age"
+                            value={formData.age || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label>Social Media</label>
+                        <div>
+                            <label>Facebook</label>
+                            <input
+                                type="text"
+                                name="socialMedia.facebook"
+                                value={formData.socialMedia?.facebook || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Instagram</label>
+                            <input
+                                type="text"
+                                name="socialMedia.instagram"
+                                value={formData.socialMedia?.instagram || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Yelp</label>
+                            <input
+                                type="text"
+                                name="socialMedia.yelp"
+                                value={formData.socialMedia?.yelp || ''}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                    </div>
 
-            <div className={styles.socialMedia}>
-                {user.socialMedia?.yelp && (
-                    <a href={user.socialMedia.yelp} target="_blank" rel="noopener noreferrer" >
-                        <img src="/images/yelp.png" alt="Yelp" className={styles.socialIcon} />
-                    </a>
-                )}
-                {user.socialMedia?.facebook && (
-                    <a href={user.socialMedia.facebook} target="_blank" rel="noopener noreferrer" >
-                        <img src="/images/facebook.png" alt="Facebook" className={styles.socialIcon} />
-                    </a>
-                )}
-                {user.socialMedia?.instagram && (
-                    <a href={user.socialMedia.instagram} target="_blank" rel="noopener noreferrer" >
-                        <img src="/images/instagram.png" alt="Instagram" className={styles.socialIcon} />
-                    </a>
-                )}
-            </div>
-
-            <div className={styles.additionalInfoBox}>
-                <h3>About Me</h3>
-                {isEditing ? (
-                    <>
-                        <p><strong>Country:</strong> <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} /></p>
-                        <p><strong>City:</strong> <input type="text" value={city} onChange={(e) => setCity(e.target.value)} /></p>
-                        <p><strong>Phone Number:</strong> <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} /></p>
-                        <p><strong>Favorite Cuisine:</strong> <input type="text" value={favoriteCuisine} onChange={(e) => setFavoriteCuisine(e.target.value)} /></p>
-                        <p><strong>Age:</strong> <input type="number" value={age} onChange={(e) => setAge(Number(e.target.value))} /></p>
-                    </>
-                ) : (
-                    <>
-                        <p><strong>Country:</strong> {user.country}</p>
-                        <p><strong>City:</strong> {user.city}</p>
-                        <p><strong>Phone Number:</strong> {user.phone}</p>
-                        <p><strong>Favorite Cuisine:</strong> {user.favoriteCuisine}</p>
-                        <p><strong>Age:</strong> {user.age}</p>
-                    </>
-                )}
-            </div>
-
-            <div className={styles.editLogoutSaveCancelSection}>
-                {isEditing ? (
-                    <>
-                        <button onClick={handleSaveClick} className={styles.saveButton}>Save</button>
-                        <button onClick={handleCancelClick} className={styles.cancelButton}>Cancel</button>
-                    </>
-                ) : (
-                    <button onClick={handleEditClick} className={styles.editButton}>Edit Profile</button>
-                )}
-                <button className={styles.logoutButton}>Log Out</button>
-            </div>
-
-            <div className={styles.homeButtonSection}>
-                <a href="https://test2-sigma-six.vercel.app/" target="_blank" rel="noopener noreferrer"
-                   className={styles.homeButton}>
-                    SuperChef
-                    <img src="images/chefhat.png" className={styles.chefHat} alt="Chef Hat" />
-                </a>
-            </div>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+                </form>
+            )}
         </div>
     );
 };
 
-export default UserProfilePage;
+export default Profile;
