@@ -1,20 +1,25 @@
 
-// export type RecipeResponseType ={
-//     offset:number,
-//     number:number,
-//     results:{
-//         id:number,
-//         title:string,
-//         image:string,
-//         imageType:string
-//     }[],
-//     totalResults:number
-// }
-export type RecipeResult = {
-		recipe: any
-        title:string,
-        image:string,
-        imageType:string,
-        link:string,
-        dietLabels:string[]
-}
+ export type RecipeResult = {
+       recipe:any,
+       ingredients:Ingredients,
+         uri: string,
+         label:string,
+         image:string,
+         imageType:string,
+         source: string,
+         url: string, //for the source (third party) url
+         dietLabels:string[],
+         healthLabels: string[],
+         ingredientLines: string[]
+ }
+
+ export type Ingredients = {
+        text: string,
+        quantity: number,
+        measure: string,
+        food: string,
+        weight: number,
+        foodCategory: string,
+        foodId: string,
+        image: string
+ }
