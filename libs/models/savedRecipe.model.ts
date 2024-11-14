@@ -19,7 +19,7 @@ const SavedRecipeSchema = new Schema({
     },
     isPrivate: {
         type: Boolean,
-        default: "",
+        default: false,
     },
 });
 
