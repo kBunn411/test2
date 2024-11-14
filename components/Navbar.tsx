@@ -64,6 +64,9 @@ const Navbar = () => {
                     <Link href="/profile" legacyBehavior>
                         <a>About Me</a>
                     </Link>
+                    <Link href="/eventPage" legacyBehavior>
+                        <a>Events</a>
+                    </Link>
                 </div>
             )}
 
