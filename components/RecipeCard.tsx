@@ -10,7 +10,7 @@ const RecipeCard = ({ recipe, onSave }: { recipe: RecipeResult; onSave: (recipe:
         router.push(`/recipeDetails/${recipeId}`);
     };
 
-    console.log("RecipeCard received recipesss:", recipe);
+    
    
 
     return (

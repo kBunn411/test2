@@ -12,8 +12,8 @@ export default function Home() {
     const [hasSearched, setHasSearched] = useState(false);
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedDietLabel, setSelectedDietLabel] = useState<string | null>(null);
-    const [activeFilters, setActiveFilters] = useState(new Set<string>());
-
+    const [activeDiet, setActiveDiet] = useState(new Set<string>());
+    const [activeHealth, setActiveHealth] = useState(new Set<string>());
 
     const dietLabels = [
         "balanced",
@@ -23,22 +23,55 @@ export default function Home() {
         "low-fat",
         "low-sodium"
     ];
+    const healthLabels = [
+        "Sugar-Conscious",
+        "Low Potassium",
+        "Kidney-Friendly",
+        "Keto-Friendly",
+        "Vegetarian",
+        "Pescatarian",
+        "Paleo",
+        "Mediterranean",
+        "Dairy-Free",
+        "Gluten-Free",
+        "Wheat-Free",
+        "Peanut-Free",
+        "Tree-Nut-Free",
+        "Soy-Free",
+        "Fish-Free",
+        "Shellfish-Free",
+        "Pork-Free",
+        "Red-Meat-Free",
+        "Crustacean-Free",
+        "Celery-Free",
+        "Mustard-Free",
+        "Sesame-Free",
+        "Lupine-Free",
+        "Mollusk-Free",
+        "Alcohol-Free",
+        "No oil added",
+        "Sulfite-Free",
+        "FODMAP-Free",
+        "Kosher"
+      ];
 
     // Function to submit a search with ingredients
-    const submitSearch = useCallback((ingredients: string) => {
+    const submitSearch = useCallback((ingredients: string, diet?: string[], health?: string[]) => {
         const effect = async () => {
             setHasSearched(true);
-            const recipeResult = await searchRecipes(ingredients);
+            const recipeResult = await searchRecipes(ingredients, "",diet);
             recipeResult.forEach((result: any, index: number) => {
                 console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
+                console.log(`Recipe ${index} Health Labels:`, result.recipe.healthLabels || "No health labels");
             });
-            console.log("result length: %d",recipeResult.length);
+            
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
                     label: result.recipe.label,
                     image: result.recipe.image,
                     link: result.recipe.shareAs,
                     dietLabels: result.recipe.dietLabels || [],
+                    healthLabels: result.recipe.healthLabels,
                     uri: result.recipe.uri || ""
                 }));
                 setAllRecipes(formattedRecipes);
@@ -71,21 +104,38 @@ export default function Home() {
         }
         
     };
-    const toggleFilter = (filter:string) =>{
-        setActiveFilters(prevFilters =>{
-            const newFilters = new Set(prevFilters);
-            if (newFilters.has(filter)) {
-                newFilters.delete(filter); 
-                console.log("Removed filter: %s", filter);
-            } else {
-                newFilters.add(filter); 
-                console.log("Added filter: %s", filter);
-            }
-            filterResults(newFilters);
-            return newFilters;
+    const toggleFilter = (filter: string, filterType: "diet" | "health") => {
+        if (filterType === "diet") {
+            setActiveDiet(prevFilters => {
+                const newFilters = new Set(prevFilters);
+                if(newFilters.has(filter)){
+                    newFilters.delete(filter);
+                    console.log("Removed %s", filter);
+                }
+                else{
+                    newFilters.add(filter);
+                    console.log("Added %s", filter);
+                }
+                
+                return newFilters;
+            });
+        } else if (filterType === "health") {
+            setActiveHealth(prevFilters => {
+                const newFilters = new Set(prevFilters);
+                if(newFilters.has(filter)){
+                    newFilters.delete(filter);
+                    console.log("Removed %s", filter);
+                }
+                else{
+                    newFilters.add(filter);
+                    console.log("Added %s", filter);
+                }
+                
+                return newFilters;
+            });
         }
-        )
-        }
+        submitSearch(ingredients, Array.from(activeDiet), Array.from(activeHealth));
+    };
     
     
     // Function to fetch random recipes
@@ -155,7 +205,7 @@ export default function Home() {
                     />
                     <button
                         className={styles.button}
-                        onClick={() => submitSearch(ingredients)}>
+                        onClick={() => submitSearch(ingredients, Array.from(activeDiet), Array.from(activeHealth))}>
                         Search
                     </button>
                     <button
@@ -165,8 +215,7 @@ export default function Home() {
                     </button>
 
                     <div className={styles.dropdown}>
-                        {hasSearched && (
-                            <>
+                        
                                 <button onClick={toggleDropdown} className={styles.button}>
                                     Diet Type
                                 </button>
@@ -176,15 +225,34 @@ export default function Home() {
                                             <button
                                                 key={index}
                                                 style={{display: 'block'}}
-                                                onClick={() => toggleFilter(label)}
+                                                onClick={() => toggleFilter(label, "diet")}
                                             >
                                                 {label}
                                             </button>
                                         ))}
                                     </div>
                                 )}
-                            </>
-                        )}
+                        
+                    </div>
+                    <div className={styles.dropdown}>
+                        
+                                <button onClick={toggleDropdown} className={styles.button}>
+                                    Health Labels
+                                </button>
+                                {dropdownVisible && (
+                                    <div className={styles.dropdownContent}>
+                                        {healthLabels.map((label, index) => (
+                                            <button
+                                                key={index}
+                                                style={{display: 'block'}}
+                                                onClick={() => toggleFilter(label, "health")}
+                                            >
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                        
                     </div>
 
 
