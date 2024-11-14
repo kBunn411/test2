@@ -116,11 +116,24 @@ export default function Home() {
     // Function to save recipes
     const saveRecipe = useCallback(async (recipe: RecipeResult) => {
         try {
-            const isPrivate = prompt("Would you like the recipe to be private or public?")
-            if (isPrivate === null) {
-                alert('Failed to save recipe');
-                return; // Exit early if the user cancels
+            let isPrivate = false; // Default to public
+
+
+            while (true) {
+                const message = prompt("Would you like the recipe to be private or public? \nType in private or public");
+                
+                if (message === null) {
+                    alert('Recipe saving canceled');
+                    return; 
+                }
+                 else if (message.toLowerCase() === "private") {
+                    isPrivate = true;
+                    break; 
+                } else {
+                    alert('Please enter either "public" or "private"');
+                }
             }
+            
             const response = await fetch('/api/saveRecipe', {
                 method: 'POST',
                 headers: {
