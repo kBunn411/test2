@@ -7,12 +7,9 @@ import {
 } from '@clerk/nextjs';
 import './globals.css';
 import styles from './styles.module.css';
+import Navbar from '@/components/Navbar';
 
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <ClerkProvider>
             <html lang="en">
@@ -22,22 +19,7 @@ export default function RootLayout({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </head>
             <body>
-            <header className={styles.header}>
-                <a href="/" className={styles.homeButton}>Home</a>
-                <a href="/savedRecipes" className={styles.homeButton}>Saved Recipes</a>
-                <a href="/profile" className={styles.homeButton}> About Me</a>
-                <div className={styles.welcomeMessage}>Welcome to SuperChef!</div>
-                <div className={styles.authButtonContainer}>
-                    <SignedOut>
-                        <SignInButton>
-                            <button className={styles.authButton}>Sign In</button>
-                        </SignInButton>
-                    </SignedOut>
-                    <SignedIn>
-                        <UserButton/>
-                    </SignedIn>
-                </div>
-            </header>
+            <Navbar />
             <main>{children}</main>
             </body>
             </html>
