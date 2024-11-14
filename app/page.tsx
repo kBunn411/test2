@@ -120,14 +120,14 @@ export default function Home() {
 
 
             while (true) {
-                const message = prompt("Would you like the recipe to be private or public? /n Type in private or public");
+                const message = prompt("Would you like the recipe to be private or public? \nType in private or public");
                 
                 if (message === null) {
                     alert('Recipe saving canceled');
                     return; 
                 }
                 else if (message.toLowerCase() === "public") {
-                    isPrivate = true;
+                    isPrivate = false;
                     break;
                 }
                  else if (message.toLowerCase() === "private") {
