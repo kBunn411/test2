@@ -17,6 +17,10 @@ const SavedRecipeSchema = new Schema({
         type: String,
         required: true,
     },
+    isPrivate: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const SavedRecipe = models?.SavedRecipe || model('SavedRecipe', SavedRecipeSchema);

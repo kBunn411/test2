@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';  // Clerk's React hook to access the authenticated user
+import styles from '@/app/profile/profile.module.css';
 
 const Profile = () => {
     const { user } = useUser();  // Retrieve authenticated user data from Clerk
@@ -17,21 +18,30 @@ const Profile = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setProfile(data);
-                    setFormData(data);  // Set initial form data to the user's profile
+                    setFormData(data);  
                 }
             };
-
             fetchProfile();
         }
-    }, [user]);  // Re-fetch profile when the user object changes (i.e., when logged in)
+    }, [user]);
 
-    // Handle input changes in the form
+    // Handle input changes in the form, including nested fields
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData((prev: any) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setFormData((prev: any) => {
+            // Handle social media fields specifically
+            if (name.startsWith("socialMedia.")) {
+                const platform = name.split(".")[1];
+                return {
+                    ...prev,
+                    socialMedia: {
+                        ...prev.socialMedia,
+                        [platform]: value,
+                    },
+                };
+            }
+            return { ...prev, [name]: value };
+        });
     };
 
     // Handle form submission to update the user profile
@@ -62,112 +72,116 @@ const Profile = () => {
     }
 
     return (
-        <div>
-            <h1>Profile</h1>
-            
+        <div className={styles.container}>
+            <h1 className={styles.name}>About me</h1>
+
             {!isEditing ? (
-                <div>
-                    <p><strong>Bio:</strong> {profile.bio}</p>
+                <div className={styles.additionalInfoBox}>
+                    <p className={styles.bio}><strong>Bio:</strong> {profile.bio}</p>
                     <p><strong>Country:</strong> {profile.country}</p>
                     <p><strong>City:</strong> {profile.city}</p>
                     <p><strong>Phone:</strong> {profile.phone}</p>
                     <p><strong>Favorite Cuisine:</strong> {profile.favoriteCuisine}</p>
                     <p><strong>Age:</strong> {profile.age}</p>
-                    <p><strong>Social Media:</strong></p>
-                    <p>Facebook: {profile.socialMedia?.facebook}</p>
-                    <p>Instagram: {profile.socialMedia?.instagram}</p>
-                    <p>Yelp: {profile.socialMedia?.yelp}</p>
-
-                    <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+                    <div className={styles.socialMedia}>
+                        <p><strong>Social Media:</strong></p>
+                        <p>Facebook: {profile.socialMedia?.facebook}</p>
+                        <p>Instagram: {profile.socialMedia?.instagram}</p>
+                        <p>Yelp: {profile.socialMedia?.yelp}</p>
+                    </div>
+                    <div className={styles.editLogoutSaveCancelSection}>
+                        <button className={styles.editButton} onClick={() => setIsEditing(true)}>Edit Profile</button>
+                    </div>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Bio</label>
+                <form onSubmit={handleSubmit} className={styles.additionalInfoBox}>
+                    <p><strong>Bio:</strong>
                         <textarea
                             name="bio"
+                            className={styles.bioEdit}
                             value={formData.bio || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>Country</label>
+                    </p>
+                    <p><strong>Country:</strong>
                         <input
                             type="text"
                             name="country"
+                            className={styles.inputField}
                             value={formData.country || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>City</label>
+                    </p>
+                    <p><strong>City:</strong>
                         <input
                             type="text"
                             name="city"
+                            className={styles.inputField}
                             value={formData.city || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>Phone</label>
+                    </p>
+                    <p><strong>Phone:</strong>
                         <input
                             type="text"
                             name="phone"
+                            className={styles.inputField}
                             value={formData.phone || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>Favorite Cuisine</label>
+                    </p>
+                    <p><strong>Favorite Cuisine:</strong>
                         <input
                             type="text"
                             name="favoriteCuisine"
+                            className={styles.inputField}
                             value={formData.favoriteCuisine || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>Age</label>
+                    </p>
+                    <p><strong>Age:</strong>
                         <input
                             type="number"
                             name="age"
+                            className={styles.inputField}
                             value={formData.age || ''}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <div>
-                        <label>Social Media</label>
-                        <div>
-                            <label>Facebook</label>
+                    </p>
+                    <div className={styles.socialMedia}>
+                        <p><strong>Social Media:</strong></p>
+                        <p>Facebook:
                             <input
                                 type="text"
                                 name="socialMedia.facebook"
+                                className={styles.inputField}
                                 value={formData.socialMedia?.facebook || ''}
                                 onChange={handleInputChange}
                             />
-                        </div>
-                        <div>
-                            <label>Instagram</label>
+                        </p>
+                        <p>Instagram:
                             <input
                                 type="text"
                                 name="socialMedia.instagram"
+                                className={styles.inputField}
                                 value={formData.socialMedia?.instagram || ''}
                                 onChange={handleInputChange}
                             />
-                        </div>
-                        <div>
-                            <label>Yelp</label>
+                        </p>
+                        <p>Yelp:
                             <input
                                 type="text"
                                 name="socialMedia.yelp"
+                                className={styles.inputField}
                                 value={formData.socialMedia?.yelp || ''}
                                 onChange={handleInputChange}
                             />
-                        </div>
+                        </p>
                     </div>
-
-                    <button type="submit">Save Changes</button>
-                    <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+                    <div className={styles.editLogoutSaveCancelSection}>
+                        <button type="submit" className={styles.saveButton}>Save Changes</button>
+                        <button type="button" className={styles.cancelButton} onClick={() => setIsEditing(false)}>Cancel</button>
+                    </div>
                 </form>
             )}
         </div>
