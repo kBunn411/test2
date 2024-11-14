@@ -12,6 +12,7 @@
          dietLabels:string[],
          healthLabels: string[],
          ingredientLines: string[]
+         isPrivate: boolean;
  }
 
  export type Ingredients = {

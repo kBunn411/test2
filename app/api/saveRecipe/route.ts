@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
             title: recipe.label,
             image: recipe.image,
             link: recipe.link,
+            isPrivate: recipe.isPrivate
         });
 
         
