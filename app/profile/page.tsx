@@ -115,7 +115,7 @@ const Profile = () => {
             <p className={styles.bio}>{profile.bio}</p>
             <div style={{height:"1.8rem",width:"9rem", display:"flex", justifyContent:"space-between"}}><img className={styles.socialMediaIcon} src='/images/facebook.png' width={28} alt='FB' onClick={()=>{router.push(profile.socialMedia.facebook)}} /> <img className={styles.socialMediaIcon} src='/images/yelp.png' alt='FB' width={30}/><img className={styles.socialMediaIcon} src='/images/instagram.png' alt='FB' width={30} /></div>
             <div><button onClick={()=>setPrivateView(!privateView)}>View Private Recipes</button></div>
-            <div className={styles.recipes}>{savedRecipes.filter(recipe => privateView ? recipe.isPrivate : !recipe.isPrivate).map(recipe =>{return <RecipeCard onSave={() =>{}}recipe={recipe}/>})} </div>
+            <div className={styles.recipes}>{savedRecipes.filter(recipe => privateView ? recipe.isPrivate : !recipe.isPrivate).map((recipe,key) =>{return <RecipeCard key={key} onSave={() =>{}}recipe={recipe}/>})} </div>
             
         </div>
     );
