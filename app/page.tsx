@@ -10,8 +10,8 @@ export default function Home() {
     const [allRecipes, setAllRecipes] = useState<RecipeResult[]>([]);
     const [recipes, setRecipes] = useState<RecipeResult[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [selectedDietLabel, setSelectedDietLabel] = useState<string | null>(null);
+    const [dietModalVisible, setDietModalVisible] = useState(false);
+    const [healthModalVisible, setHealthModalVisible] = useState(false);
     const [activeDiet, setActiveDiet] = useState(new Set<string>());
     const [activeHealth, setActiveHealth] = useState(new Set<string>());
 
@@ -84,26 +84,8 @@ export default function Home() {
         };
         effect();
     }, []);
-    const toggleDropdown = () => {
-        setDropdownVisible(prevVisible => !prevVisible);
-    };
 
-    const filterResults = (filters: Set <string>) => {
-        if(filters.size==0){
-            setRecipes(allRecipes);
-        }
-        else{
-            setRecipes(
-                allRecipes.filter(recipe =>
-                    Array.from(filters).every(filter =>
-                        recipe.dietLabels &&
-                        recipe.dietLabels.map((label: string) => label.toLowerCase()).includes(filter)
-                    )
-                )
-            );
-        }
-        
-    };
+
     const toggleFilter = (filter: string, filterType: "diet" | "health") => {
         if (filterType === "diet") {
             setActiveDiet(prevFilters => {
@@ -236,51 +218,63 @@ export default function Home() {
                         Random
                     </button>
 
-                    <div className={styles.dropdown}>
-                        
-                                <button onClick={toggleDropdown} className={styles.button}>
-                                    Diet Type
-                                </button>
-                                {dropdownVisible && (
-                                    <div className={styles.dropdownContent}>
-                                        {dietLabels.map((label, index) => (
-                                            <button
-                                                key={index}
-                                                style={{display: 'block'}}
-                                                onClick={() => toggleFilter(label, "diet")}
-                                            >
-                                                {label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                        
-                    </div>
-                    <div className={styles.dropdown}>
-                        
-                                <button onClick={toggleDropdown} className={styles.button}>
-                                    Health Labels
-                                </button>
-                                {dropdownVisible && (
-                                    <div className={styles.dropdownContent}>
-                                        {healthLabels.map((label, index) => (
-                                            <button
-                                                key={index}
-                                                style={{display: 'block'}}
-                                                onClick={() => toggleFilter(label, "health")}
-                                            >
-                                                {label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                        
-                    </div>
 
+                    {/* Button to open Diet Type Modal */}
+                    <button onClick={() => setDietModalVisible(true)} className={styles.button}>
+                        Diet Type
+                    </button>
 
+                    {/* Button to open Health Labels Modal */}
+                    <button onClick={() => setHealthModalVisible(true)} className={styles.button}>
+                        Health Labels
+                    </button>
                 </div>
             </div>
-            
+
+
+            {/* Diet Filter Modal */}
+            {dietModalVisible && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h3>Filter Diet Type</h3>
+                        {dietLabels.map((label, index) => (
+                            <label key={index} className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    checked={activeDiet.has(label)}
+                                    onChange={() => toggleFilter(label, "diet")}
+                                />
+                                {label}
+                            </label>
+                        ))}
+                        <button onClick={() => setDietModalVisible(false)} className={styles.applyButton}>
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Health Filter Modal */}
+            {healthModalVisible && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h3>Filter Health Labels</h3>
+                        {healthLabels.map((label, index) => (
+                            <label key={index} className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    checked={activeHealth.has(label)}
+                                    onChange={() => toggleFilter(label, "health")}
+                                />
+                                {label}
+                            </label>
+                        ))}
+                        <button onClick={() => setHealthModalVisible(false)} className={styles.applyButton}>
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Recipes display section */}
             <div className={styles.recipes}>
@@ -288,14 +282,10 @@ export default function Home() {
                     <h1>No Recipes Found</h1>
                 ) : (
                     recipes.map((recipe, key) => (
-                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe}/>
+                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe} />
                     ))
                 )}
             </div>
-
-
-            
-
         </div>
     );
 }
