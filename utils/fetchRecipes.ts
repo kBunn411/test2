@@ -5,7 +5,7 @@ export async function searchRecipes(ingredientInput = "", mealType = "", dietLab
 
     const mealTypes = ["breakfast", "brunch", "lunch/dinner", "snack", "teatime"];
     const randomMealType = mealType || mealTypes[Math.floor(Math.random() * mealTypes.length)];
-    console.log("Formatted diet labels: %s", dietFormat(dietLabels));
+    
     const apiUrl = `https://api.edamam.com/api/recipes/v2?type=public&q=${encodeURIComponent(ingredientInput)}&app_id=${edamamID}&app_key=${appKey}${dietFormat(dietLabels)}${healthFormat(healthLabels)}&mealType=${encodeURIComponent(randomMealType)}`;
 
     console.log("API URL:", apiUrl); // Log the final URL to inspect any issues

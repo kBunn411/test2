@@ -6,6 +6,6 @@ export function dietFormat(labels?: string[]): string {
 
 export function healthFormat(labels?: string[]): string {
     return labels && labels.length > 0 
-        ? labels.map(label => `&health=${encodeURIComponent(label)}`).join("") 
+        ? labels.map(label => `&health=${encodeURIComponent(label.toLowerCase().replace(" ", "-"))}`).join("") 
         : "";
 }
