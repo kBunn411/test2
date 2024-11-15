@@ -11,6 +11,7 @@ Adding an screenshot or a mockup of your application in action would be nice.
 # Link to current website
 https://test2-sigma-six.vercel.app/
 
+
 # How to install
 1) Make sure you have Node.js installed. If you do not follow the steps from this website: https://nodejs.org/en
 2) We recommend Webstorm as the IDE, but anything that can be used to sufficiently develop Web Apps is also fine. As
