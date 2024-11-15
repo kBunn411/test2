@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
 
         // Fetch the user profile from MongoDB based on userId (chefID or userId)
         const user = await User.findOne({ chefID: userId }).exec();
+        console.log(user)
 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
