@@ -1,14 +1,21 @@
 'use client';  // Ensure this is a client-side component
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';  // Clerk's React hook to access the authenticated user
 import styles from '@/app/profile/profile.module.css';
+import {useRouter} from 'next/navigation';
+import Image from 'next/image';
+import { RecipeResult } from '@/types/RecipeResponseType';
+import RecipeCard from '@/components/RecipeCard';
 
 const Profile = () => {
-    const { user } = useUser();  // Retrieve authenticated user data from Clerk
+    const router = useRouter()
+    const {isLoaded , isSignedIn, user } = useUser();  // Retrieve authenticated user data from Clerk
     const [profile, setProfile] = useState<any>(null);  // State to store user profile data
     const [formData, setFormData] = useState<any>({});  // State to handle form input changes
     const [isEditing, setIsEditing] = useState(false);  // Track whether we're in editing mode
+    const [savedRecipes, setSavedRecipes] = useState<RecipeResult[]>([]);
+    const [privateView, setPrivateView] = useState(false)
 
     // Fetch the user profile data from the API
     useEffect(() => {
@@ -44,6 +51,11 @@ const Profile = () => {
         });
     };
 
+    const replaceImage = () => {
+        alert("Image replace coming soon")
+        //user?.setProfileImage({file:{upload file}})
+    }
+
     // Handle form submission to update the user profile
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,124 +78,45 @@ const Profile = () => {
         }
     };
 
+
+    // Function to fetch saved recipes
+    useEffect(() => {
+       const effect= async ()=>{ try {
+            const response = await fetch('/api/getSavedRecipes');
+            if (response.ok) {
+                const recipes = await response.json();
+                
+                setSavedRecipes(recipes);
+                
+            } else {
+                console.error('Failed to fetch saved recipes');
+            }
+        } catch (error) {
+            console.error('Error fetching saved recipes:', error);
+        }}
+        effect()
+    }, []);
+    
+    console.log(user, profile, savedRecipes)
+
     // Show loading state while fetching user data
+    if(!isSignedIn){
+        return null;
+        // router.push("sign-in")
+    }
     if (!profile) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.name}>About me</h1>
-
-            {!isEditing ? (
-                <div className={styles.additionalInfoBox}>
-                    <p className={styles.bio}><strong>Bio:</strong> {profile.bio}</p>
-                    <p><strong>Country:</strong> {profile.country}</p>
-                    <p><strong>City:</strong> {profile.city}</p>
-                    <p><strong>Phone:</strong> {profile.phone}</p>
-                    <p><strong>Favorite Cuisine:</strong> {profile.favoriteCuisine}</p>
-                    <p><strong>Age:</strong> {profile.age}</p>
-                    <div className={styles.socialMedia}>
-                        <p><strong>Social Media:</strong></p>
-                        <p>Facebook: {profile.socialMedia?.facebook}</p>
-                        <p>Instagram: {profile.socialMedia?.instagram}</p>
-                        <p>Yelp: {profile.socialMedia?.yelp}</p>
-                    </div>
-                    <div className={styles.editLogoutSaveCancelSection}>
-                        <button className={styles.editButton} onClick={() => setIsEditing(true)}>Edit Profile</button>
-                    </div>
-                </div>
-            ) : (
-                <form onSubmit={handleSubmit} className={styles.additionalInfoBox}>
-                    <p><strong>Bio:</strong>
-                        <textarea
-                            name="bio"
-                            className={styles.bioEdit}
-                            value={formData.bio || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <p><strong>Country:</strong>
-                        <input
-                            type="text"
-                            name="country"
-                            className={styles.inputField}
-                            value={formData.country || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <p><strong>City:</strong>
-                        <input
-                            type="text"
-                            name="city"
-                            className={styles.inputField}
-                            value={formData.city || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <p><strong>Phone:</strong>
-                        <input
-                            type="text"
-                            name="phone"
-                            className={styles.inputField}
-                            value={formData.phone || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <p><strong>Favorite Cuisine:</strong>
-                        <input
-                            type="text"
-                            name="favoriteCuisine"
-                            className={styles.inputField}
-                            value={formData.favoriteCuisine || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <p><strong>Age:</strong>
-                        <input
-                            type="number"
-                            name="age"
-                            className={styles.inputField}
-                            value={formData.age || ''}
-                            onChange={handleInputChange}
-                        />
-                    </p>
-                    <div className={styles.socialMedia}>
-                        <p><strong>Social Media:</strong></p>
-                        <p>Facebook:
-                            <input
-                                type="text"
-                                name="socialMedia.facebook"
-                                className={styles.inputField}
-                                value={formData.socialMedia?.facebook || ''}
-                                onChange={handleInputChange}
-                            />
-                        </p>
-                        <p>Instagram:
-                            <input
-                                type="text"
-                                name="socialMedia.instagram"
-                                className={styles.inputField}
-                                value={formData.socialMedia?.instagram || ''}
-                                onChange={handleInputChange}
-                            />
-                        </p>
-                        <p>Yelp:
-                            <input
-                                type="text"
-                                name="socialMedia.yelp"
-                                className={styles.inputField}
-                                value={formData.socialMedia?.yelp || ''}
-                                onChange={handleInputChange}
-                            />
-                        </p>
-                    </div>
-                    <div className={styles.editLogoutSaveCancelSection}>
-                        <button type="submit" className={styles.saveButton}>Save Changes</button>
-                        <button type="button" className={styles.cancelButton} onClick={() => setIsEditing(false)}>Cancel</button>
-                    </div>
-                </form>
-            )}
+            <div onClick={() => replaceImage()} style={{height:"18rem", width:"18rem"}}><img alt={"profileImage"} style={{ width:"100%", height:"100%", borderRadius:"50%"}} src={user.imageUrl} /></div>
+            <h1 className={styles.name}>{user.username}</h1>
+            <p className={styles.bio}>{profile.bio}</p>
+            <div style={{height:"1.8rem",width:"9rem", display:"flex", justifyContent:"space-between"}}><img className={styles.socialMediaIcon} src='/images/facebook.png' width={28} alt='FB' onClick={()=>{router.push(profile.socialMedia.facebook)}} /> <img className={styles.socialMediaIcon} src='/images/yelp.png' alt='FB' width={30}/><img className={styles.socialMediaIcon} src='/images/instagram.png' alt='FB' width={30} /></div>
+            <div><button onClick={()=>setPrivateView(!privateView)}>View Private Recipes</button></div>
+            <div className={styles.recipes}>{savedRecipes.filter(recipe => privateView ? recipe.isPrivate : !recipe.isPrivate).map(recipe =>{return <RecipeCard onSave={() =>{}}recipe={recipe}/>})} </div>
+            
         </div>
     );
 };

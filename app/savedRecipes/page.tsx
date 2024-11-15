@@ -29,7 +29,7 @@ const SavedRecipesPage = () => {
     useEffect(() => {
         fetchSavedRecipes();
         
-    }, [fetchSavedRecipes]);
+    }, []);
     
     
 
