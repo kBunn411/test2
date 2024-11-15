@@ -59,11 +59,8 @@ export default function Home() {
     const submitSearch = useCallback((ingredients: string, diet?: string[], health?: string[]) => {
         const effect = async () => {
             setHasSearched(true);
-            const recipeResult = await searchRecipes(ingredients, "",diet);
-            recipeResult.forEach((result: any, index: number) => {
-                console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
-                console.log(`Recipe ${index} Health Labels:`, result.recipe.healthLabels || "No health labels");
-            });
+            const recipeResult = await searchRecipes(ingredients, "",diet, health);
+            
             
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
@@ -116,6 +113,25 @@ export default function Home() {
                 return newFilters;
             });
         }
+    };
+    const applyFilters=(type:string)=>{
+        if(type=='diet'){
+            setDietModalVisible(false);
+        }
+        else if(type=='health'){
+            setHealthModalVisible(false);
+        }
+        submitSearch(ingredients, Array.from(activeDiet), Array.from(activeHealth));
+    };
+    const clearFilters = (type: string) =>{
+        if(type=='diet'){
+            setActiveDiet( new Set<string>());
+            setDietModalVisible(false);
+        }
+        else if(type=='health'){
+            setActiveHealth(new Set<string>());
+            setHealthModalVisible(false);
+        }
         submitSearch(ingredients, Array.from(activeDiet), Array.from(activeHealth));
     };
     
@@ -125,9 +141,9 @@ export default function Home() {
         const effect = async () => {
             setHasSearched(true);
             const recipeResult = await searchRecipes();
-            recipeResult.forEach((result: any, index: number) => {
-                console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
-            });
+            // recipeResult.forEach((result: any, index: number) => {
+            //     console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
+            // });
             if (recipeResult && recipeResult.length > 0) {
                 const formattedRecipes = recipeResult.map((result: any) => ({
                     label: result.recipe.label,
@@ -247,8 +263,11 @@ export default function Home() {
                                 {label}
                             </label>
                         ))}
-                        <button onClick={() => setDietModalVisible(false)} className={styles.applyButton}>
+                        <button onClick={() => applyFilters("diet")} className={styles.applyButton}>
                             Apply Filters
+                        </button>
+                        <button onClick={() => clearFilters("diet")} className={styles.applyButton}>
+                            Clear All
                         </button>
                     </div>
                 </div>
@@ -269,8 +288,11 @@ export default function Home() {
                                 {label}
                             </label>
                         ))}
-                        <button onClick={() => setHealthModalVisible(false)} className={styles.applyButton}>
+                        <button onClick={()=>applyFilters("health")} className={styles.applyButton}>
                             Apply Filters
+                        </button>
+                        <button onClick={()=>clearFilters("health")} className={styles.applyButton}>
+                            Clear All
                         </button>
                     </div>
                 </div>
