@@ -5,15 +5,18 @@ import { searchRecipes } from '@/utils/fetchRecipes';
 import { RecipeResult } from '@/types/RecipeResponseType';
 import RecipeCard from '@/components/RecipeCard';
 import SearchBar from '@/components/SearchBar';
+import { useUser } from "@clerk/nextjs";
+import recipeCard from "@/components/RecipeCard";
+
 
 export default function Home() {
     const [recipes, setRecipes] = useState<RecipeResult[]>([]);
     const [hasSearched, setHasSearched] = useState(false);
-
-    
+    const { user } = useUser();
+    const userId = user?.id;
 
     // Function to submit a search with ingredients
-    const submitSearch = useCallback((ingredients: string, diet?: string[], health?: string[]) => {
+    const submitSearch = useCallback(async (ingredients: string, diet?: string[], health?: string[]) => {
         const effect = async () => {
             setHasSearched(true);
             const recipeResult = await searchRecipes(ingredients, "",diet, health);
@@ -38,9 +41,6 @@ export default function Home() {
     }, []);
 
 
-    
-    
-    
     // Function to fetch random recipes
     const fetchRandomRecipes = useCallback(() => {
         const effect = async () => {
@@ -65,6 +65,7 @@ export default function Home() {
         };
         effect();
     }, []);
+
 
     // Function to save recipes
     const saveRecipe = useCallback(async (recipe: RecipeResult) => {
@@ -110,6 +111,43 @@ export default function Home() {
         }
     }, []);
 
+
+    //Function to add to Meal PLanner
+    const addToMealPlan = useCallback(async (recipe) => {
+        if (!userId) {
+            alert("You must be logged in to add to the meal planner!");
+            return;
+        }
+
+        const date = prompt("Enter the date for this recipe (YYYY-MM-DD):");
+        if (!date) {
+            alert("Adding to meal plan canceled");
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/mealPlans", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    recipeId: recipe.uri,
+                    recipeName: recipe.label,
+                    date: new Date(date).toISOString(),
+                    userId,
+                    image: recipe.image,
+                    source: recipe.link,
+                }),
+            });
+
+            if (!response.ok) throw new Error("Failed to add recipe");
+
+            alert("Recipe added to meal plan!");
+        } catch (error) {
+            console.error(error);
+            alert("Error adding recipe to meal plan.");
+        }
+    }, [userId]);
+
     return (
         <div className={styles.container}>
             <div className={styles.card}>
@@ -131,11 +169,11 @@ export default function Home() {
                     <h1>No Recipes Found</h1>
                 ) : (
                     recipes.map((recipe, key) => (
-                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe} />
+                        <RecipeCard key={key} recipe={recipe} onSave={saveRecipe} onAddToMealPlan={addToMealPlan} />
                     ))
                 )}
                 </div>
-        </div>
+            </div>
         </div>
     );
 }
