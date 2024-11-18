@@ -67,6 +67,9 @@ const Navbar = () => {
                     <Link href="/eventPage" legacyBehavior>
                         <a>Events</a>
                     </Link>
+                    <Link href="/mealPlanner" legacyBehavior>
+                        <a>Meal Planner</a>
+                    </Link>
                 </div>
             )}
 
