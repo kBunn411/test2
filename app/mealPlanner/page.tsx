@@ -2,6 +2,10 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import RecipeCard from "@/components/RecipeCard";
+import styles from "./mealPlanner.module.css"; // Your custom styles
+
 
 export default function MealPlanner() {
     const { user } = useUser();
@@ -29,22 +33,57 @@ export default function MealPlanner() {
         fetchMealPlans();
     }, [userId]);
 
-    const getMealsForDate = (date) => {
+    const getMealsForDate = (date: Date) => {
         return mealPlans.filter(
             (meal) => new Date(meal.date).toISOString().split("T")[0] === date.toISOString().split("T")[0]
         );
     };
 
+
+    {/*<div style={{display: "flex", flexWrap: "wrap", gap: "10px"}}>
+                {getMealsForDate(selectedDate).map((meal, index) => (
+                    <RecipeCard
+                        key={index}
+                        recipe={{
+                            label: meal.recipeName,
+                            image: meal.image,
+                            uri: meal.recipeId,
+                            source: meal.source,
+                        }}
+                        onAddToMealPlan={() => {} /* No need for this in the meal planner */}
+    //onSave={() => {} /* Optionally, disable saving */}
+    ///>
+//))}
+//</div>*/}
     return (
         <div>
             <h1>Meal Planner</h1>
-            <Calendar value={selectedDate} onChange={setSelectedDate} />
+            <Calendar value={selectedDate} onChange={setSelectedDate}/>
             <h2>Meals for {selectedDate.toDateString()}</h2>
-            <ul>
+
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+                    gap: "20px",
+                    justifyContent: "center",
+                }}>
                 {getMealsForDate(selectedDate).map((meal, index) => (
-                    <li key={index}>{meal.recipeName}</li>
+                    <RecipeCard
+                        key={index}
+                        recipe={{
+                            label: meal.recipeName,
+                            image: meal.image,
+                            uri: meal.recipeId,
+                            source: meal.source,
+                        }}
+                        onAddToMealPlan={() => {} /* No need for this in the meal planner? */}
+                        onSave={() => {} /* same here */}
+                    />
                 ))}
-            </ul>
+            </div>
+
+
         </div>
     );
 }

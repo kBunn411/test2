@@ -6,13 +6,14 @@ import {Promise} from "es6-promise";
 const RecipeCard = ({recipe, onSave, onAddToMealPlan}: {
     recipe: RecipeResult,
     onSave: (recipe: RecipeResult) => void,
-    onAddToMealPlan?: (recipe) => Promise<void>
+    onAddToMealPlan?: (recipe: any) => Promise<void>
 }) => {
     const router = useRouter();
     const recipeId = recipe.uri?.split("recipe_")[1]
     const viewRecipeDetails = () => {
         router.push(`/recipeDetails/${recipeId}`);
     };
+
 
     return (
         <div className={styles.recipeCard}>

@@ -113,7 +113,7 @@ export default function Home() {
 
 
     //Function to add to Meal PLanner
-    const addToMealPlan = useCallback(async (recipe) => {
+    const addToMealPlan = useCallback(async (recipe: { uri: any; label: any; image: any; link: any; }) => {
         if (!userId) {
             alert("You must be logged in to add to the meal planner!");
             return;
