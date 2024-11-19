@@ -14,7 +14,9 @@ const SavedRecipesPage = () => {
             const response = await fetch('/api/getSavedRecipes');
             if (response.ok) {
                 const recipes = await response.json();
+                
                 setSavedRecipes(recipes);
+                
             } else {
                 console.error('Failed to fetch saved recipes');
             }
@@ -26,15 +28,22 @@ const SavedRecipesPage = () => {
     // Fetch saved recipes on page load
     useEffect(() => {
         fetchSavedRecipes();
-    }, [fetchSavedRecipes]);
+        
+    }, []);
+    
+    
 
     return (
+        
         <div className={styles.container}>
             <h1>Your Saved Recipes</h1>
             <div className={styles.recipes}>
                 {savedRecipes.length > 0 ? (
                     savedRecipes.map((recipe, key) => (
+                        
+                        
                         <RecipeCard key={key} recipe={recipe} onSave={() => {}} />
+                        
                     ))
                 ) : (
                     <h2>No saved recipes found.</h2>

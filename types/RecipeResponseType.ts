@@ -1,5 +1,6 @@
 
  export type RecipeResult = {
+      title: string
        recipe:any,
        ingredients:Ingredients,
          uri: string,
@@ -11,6 +12,7 @@
          dietLabels:string[],
          healthLabels: string[],
          ingredientLines: string[]
+         isPrivate: boolean;
  }
 
  export type Ingredients = {

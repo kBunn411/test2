@@ -8,6 +8,10 @@ inspiration, Super-Chef makes meal planning easy, efficient, and fun. Let Super-
 Adding an screenshot or a mockup of your application in action would be nice.  
 <img width="1470" alt="Screenshot 2024-10-31 at 4 46 45 PM" src="https://github.com/user-attachments/assets/6f02178a-916e-412c-a60d-84d56cd785b7">
 
+# Link to current website
+https://test2-sigma-six.vercel.app/
+
+
 # How to install
 1) Make sure you have Node.js installed. If you do not follow the steps from this website: https://nodejs.org/en
 2) We recommend Webstorm as the IDE, but anything that can be used to sufficiently develop Web Apps is also fine. As
@@ -21,5 +25,4 @@ After following the steps above to install the project all you have to odo now i
 # How to contribute
 Follow this project here to know the latest status: https://github.com/cis3296f24/project-01-Super-Chef
 
-# Link to current website
-https://test2-sigma-six.vercel.app/
+

@@ -11,15 +11,18 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
         }
 
-        const { recipe } = await req.json(); // Parse the JSON body from the request
+        const { recipe, isPrivate } = await req.json(); // Parse the JSON body from the request
         await connect();
 
         const newSavedRecipe = new SavedRecipe({
             userId,
-            title: recipe.title,
+            title: recipe.label,
             image: recipe.image,
             link: recipe.link,
+            isPrivate: isPrivate
         });
+
+        
 
         await newSavedRecipe.save();
         return NextResponse.json({ message: 'Recipe saved successfully!' });
