@@ -11,7 +11,8 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.0.58",
     "@clerk/nextjs": "^6.1.3",
-    "clerk": "^0.8.3",
+    "calendar": "^0.1.1",
+    "clerk": "^0.6.1",
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.0",
     "next": "^15.0.3",
