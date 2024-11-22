@@ -160,32 +160,25 @@ export default function RecipeDetails() {
         //effect();
     //}, []);
 
-    //not sure about best way to set this up
-    //console.log(recipe)
-    if (loading){return <div>RECIPE IS LOADING!!</div>}
-    if (!recipe){return <div>No recipe Found</div>}
+    console.log(recipe)
+    if (loading) return <div>RECIPE IS LOADING!!</div>;
+    if (!recipe) return <div>No recipe Found</div>;
 
     return (
-        <div style={{ color: "white", fontSize: "40", height: "20rem" }}>
-            <img src={recipe.image} alt="RECIPE IMAGE" />
+        <div style={{ color: "black", fontSize: "20px", padding: "20px" }}>
+            <img src={recipe.image} alt="Recipe" style={{ maxWidth: "100%", borderRadius: "8px" }} />
             <h1>{recipe.label}</h1>
-            <button onClick={fetchVideo} style={{ margin: '10px', padding: '10px' }}>
-                Watch A Sample Video
-            </button>
-            <div ref={playerRef} style={{ marginTop: '20px' }}>
-                {!videoId && <p>Click the button to load a sample recipe video</p>}
-            </div>
-            {videoDetails && (
-                <div style={{ marginTop: "20px" }}>
-                    <h2>{videoDetails.snippet.title}</h2>
-                    <p>{videoDetails.snippet.description}</p>
-                    <img
-                        src={videoDetails.snippet.thumbnails.medium.url}
-                        alt="Video Thumbnail"
-                        style={{ maxWidth: "100%" }}
-                    />
-                </div>
-            )}
+            <h2>Ingredients</h2>
+            <ul>
+                {recipe.ingredientLines.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li>
+                ))}
+            </ul>
+            <h2>Source</h2>
+            <a href={recipe.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue", textDecoration: "underline" }}>
+                View Full Recipe on {recipe.source}
+            </a>
         </div>
     );
 }
+
