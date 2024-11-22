@@ -1,17 +1,20 @@
-import mongoose, { Schema, model, models } from "mongoose";
 
-const MealPlanSchema = new Schema(
-    {
+import mongoose from "mongoose";
+
+const MealPlanSchema = new mongoose.Schema({
         recipeId: { type: String, required: true },
         recipeName: { type: String, required: true },
         date: { type: Date, required: true },
         userId: { type: String, required: true },
-        image: { type: String, default: null },
-        source: { type: String, default: null },
-    },
-    { timestamps: true }
-);
+        image: { type: String, required: false },
+        source: { type: String, required: false },
+        url: { type: String, required: false },
+        dietLabels: { type: [String], required: false },
+        healthLabels: { type: [String], required: false },
+        ingredientLines: { type: [String], required: false },
+        ingredients: { type: Array, required: false },
+        isPrivate: { type: Boolean, required: false },
+});
 
-const MealPlan = models.MealPlan || model("MealPlan", MealPlanSchema);
+export default mongoose.models.MealPlan || mongoose.model("MealPlan", MealPlanSchema);
 
-export default MealPlan;

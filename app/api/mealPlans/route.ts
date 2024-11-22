@@ -25,10 +25,23 @@ export async function POST(req: NextRequest) {
     await connect();
 
     try {
-        const { recipeId, recipeName, date, userId, image, source } = await req.json();
+        const {
+            recipeId,
+            recipeName,
+            date,
+            userId,
+            image,
+            source,
+            url,
+            dietLabels,
+            healthLabels,
+            ingredientLines,
+            ingredients,
+            isPrivate,
+        } = await req.json();
 
         if (!recipeId || !recipeName || !date || !userId) {
-            return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+            return NextResponse.json({ error: "Required fields are missing" }, { status: 400 });
         }
 
         const newMealPlan = await MealPlan.create({
@@ -38,11 +51,17 @@ export async function POST(req: NextRequest) {
             userId,
             image,
             source,
+            url,
+            dietLabels,
+            healthLabels,
+            ingredientLines,
+            ingredients,
+            isPrivate,
         });
 
         return NextResponse.json(newMealPlan, { status: 201 });
     } catch (error) {
-        console.error("Failed to save meal plan:", error);
+        console.error("Error saving meal plan:", error);
         return NextResponse.json({ error: "Failed to save meal plan" }, { status: 500 });
     }
 }
