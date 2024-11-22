@@ -5,17 +5,16 @@ import Button from "../Button/Button";
 
 interface SearchProps {
     onSubmitSearch: (
-        ingredients: string,
+        ingredients?: string,
         diet?: string[],
         health?: string[]
     ) => void;
-    onFetchRandomRecipes: () => void;
 }
-
-export default function Search({
-    onSubmitSearch,
-    onFetchRandomRecipes,
-}: SearchProps) {
+/**
+ * @todo filtering the recipes upon applying a filter is makign it slow, might be better if it waits till applying?
+ * set logic also doesn't need to be this complex i think...
+ */
+export default function Search({ onSubmitSearch }: SearchProps) {
     const [ingredients, setIngredients] = useState("");
     const [dietModalVisible, setDietModalVisible] = useState(false);
     const [healthModalVisible, setHealthModalVisible] = useState(false);
@@ -139,7 +138,7 @@ export default function Search({
                         )
                     }
                 />
-                <Button text={"Random"} onClick={onFetchRandomRecipes} />
+                <Button text={"Random"} onClick={() => onSubmitSearch()} />
             </div>
 
             {advancedSearch ? (
@@ -197,7 +196,12 @@ export default function Search({
                     className={styles.modalOverlay}
                     onClick={() => setDietModalVisible(false)}
                 >
-                    <div className={styles.modalContent}>
+                    <div
+                        className={styles.modalContent}
+                        onClick={e => {
+                            e.stopPropagation();
+                        }}
+                    >
                         <h3>Filter Diet Type</h3>
                         {dietLabels.map((label, index) => (
                             <label key={index} className={styles.checkboxLabel}>

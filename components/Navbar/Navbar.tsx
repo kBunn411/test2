@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
     SignedIn,
     SignedOut,
     useUser,
     UserButton,
     SignInButton,
-} from '@clerk/nextjs';
-import styles from './navbar.module.css';
-import Link from 'next/link';
+} from "@clerk/nextjs";
+import styles from "./navbar.module.css";
+import Link from "next/link";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +32,7 @@ const Navbar = () => {
                     {menuOpen && (
                         <div
                             className={styles.dropdownMenu}
-                            style={{ left: '1rem' }}
+                            style={{ left: "1rem" }}
                         >
                             <Link href="/savedRecipes">Saved Recipes</Link>
                             <Link href="/chefTools">Chef Tools</Link>
@@ -51,7 +51,7 @@ const Navbar = () => {
                     <img
                         src="/images/Logo.png"
                         alt="Super Chef Logo"
-                        style={{ height: '30px' }}
+                        style={{ height: "30px" }}
                     />
                     Super-Chef
                 </Link>
@@ -74,7 +74,7 @@ const Navbar = () => {
                     {settingsOpen && (
                         <div
                             className={styles.dropdownMenu}
-                            style={{ right: '2rem' }}
+                            style={{ right: "2rem" }}
                         >
                             <Link href="/account">Account Settings</Link>
                             <Link href="/preferences">Preferences</Link>
@@ -90,10 +90,6 @@ const Navbar = () => {
                     <UserButton />
                 </SignedIn>
             </div>
-
-            {/* Dropdown Menu for Hamburger */}
-
-            {/* Settings Dropdown for User Account */}
         </header>
     );
 };

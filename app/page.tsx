@@ -14,7 +14,7 @@ export default function Home() {
 
     // Function to submit a search with ingredients
     const submitSearch = useCallback(
-        async (ingredients: string, diet?: string[], health?: string[]) => {
+        async (ingredients?: string, diet?: string[], health?: string[]) => {
             setHasSearched(true);
             const recipeResult = await searchRecipes(
                 ingredients,
@@ -40,24 +40,24 @@ export default function Home() {
     );
 
     // Function to fetch random recipes
-    const fetchRandomRecipes = useCallback(async () => {
-        setHasSearched(true);
-        const recipeResult = await searchRecipes();
-        // recipeResult.forEach((result: any, index: number) => {
-        //     console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
-        // });
-        if (recipeResult && recipeResult.length > 0) {
-            const formattedRecipes = recipeResult.map((result: any) => ({
-                label: result.recipe.label,
-                image: result.recipe.image,
-                link: result.recipe.shareAs,
-                dietLabels: result.recipe.dietLabels || [],
-            }));
-            setRecipes(formattedRecipes);
-        } else {
-            setRecipes([]);
-        }
-    }, []);
+    // const fetchRandomRecipes = useCallback(async () => {
+    //     setHasSearched(true);
+    //     const recipeResult = await searchRecipes();
+    //     // recipeResult.forEach((result: any, index: number) => {
+    //     //     console.log(`Recipe ${index} Diet Labels:`, result.recipe.dietLabels || "No diet labels");
+    //     // });
+    //     if (recipeResult && recipeResult.length > 0) {
+    //         const formattedRecipes = recipeResult.map((result: any) => ({
+    //             label: result.recipe.label,
+    //             image: result.recipe.image,
+    //             link: result.recipe.uri,
+    //             dietLabels: result.recipe.dietLabels || [],
+    //         }));
+    //         setRecipes(formattedRecipes);
+    //     } else {
+    //         setRecipes([]);
+    //     }
+    // }, []);
 
     return (
         <div className={styles.container}>
@@ -72,10 +72,7 @@ export default function Home() {
                         SuperChef
                     </text>
                 </svg>
-                <SearchBar
-                    onSubmitSearch={submitSearch}
-                    onFetchRandomRecipes={fetchRandomRecipes}
-                />
+                <SearchBar onSubmitSearch={submitSearch} />
                 {/* Recipes display section */}
                 <div className={styles.recipes}>
                     {hasSearched && recipes.length === 0 ? (
