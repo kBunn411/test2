@@ -88,3 +88,24 @@
     position: relative;
     height: 100%;
   }
+  .button {
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 4px 8px;
+    background-color: #ffe4b5;
+    outline: none;
+    border: none;
+    color: #ff7f50;;
+    border-radius: 7px;
+    font-weight: bold;
+    /* font-family: "Comic Sans MS", cursive; */
+    transition:
+        transform 0.1s ease-in-out,
+        box-shadow 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-0.5px) translateX(0.5px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
