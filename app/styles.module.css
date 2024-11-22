@@ -2,11 +2,12 @@
 
 /* Container styling */
 .container {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: 100vh;
+  min-height: calc(100vh - 30px);
   font-family: Arial, sans-serif;
 }
 
@@ -129,15 +130,7 @@
 }
 
 /* Search area styling */
-.search {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-}
+
 
 /* Input styling */
 .input {
@@ -151,28 +144,6 @@
 }
 
 /* Button styling */
-.button {
-  padding: 10px 20px;
-  background-color: #ffa07a;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: 'Comic Sans MS', cursive;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-.button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 
 .dropdown {
@@ -274,119 +245,11 @@
 }
 
 /* Navbar Styling */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #ffe4b5;
-  color: #333;
-  font-family: 'Comic Sans MS', cursive;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.5rem;
-  color: #ff683c;
-  font-family: 'Pacifico', cursive;
-  cursor: pointer;
-  text-decoration: none;
-}
 
-.welcomeMessage {
-  font-size: 1.2rem;
-  color: #333;
-  font-weight: bold;
-  text-align: center;
-  flex-grow: 1;
-}
-
-.hamburger, .settingsButton {
-  font-size: 1rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 10px 15px;
-  color: #ff7f50;
-  font-weight: bold;
-}
 
 /* Dropdown Menu Styling */
-.dropdownMenu {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  background-color: #fffaf0;
-  border: 2px solid #f0d9b5;
-  border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  width: 150px;
-}
 
-.dropdownMenu a {
-  padding: 8px 10px;
-  color: #ff7f50;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-}
-
-.dropdownMenu a:hover {
-  background-color: #f0d9b5;
-}
-
-
-.settingsDropdown {
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  background-color: #fffaf0;
-  border: 2px solid #f0d9b5;
-  border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  width: 150px;
-}
-
-.settingsDropdown a {
-  padding: 8px 10px;
-  color: #ff7f50;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-  width: 100%;
-}
-
-.settingsDropdown a:hover {
-  background-color: #f0d9b5;
-}
-
-/* Right section containing the settings and auth buttons */
-.rightSection {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-}
 
 .modalOverlay {
   position: fixed;

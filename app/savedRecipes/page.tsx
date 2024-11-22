@@ -1,9 +1,9 @@
 // app/savedRecipes/page.tsx
-"use client";
-import { useEffect, useState, useCallback } from "react";
-import { RecipeResult } from "@/types/RecipeResponseType";
-import RecipeCard from "@/components/RecipeCard";
-import styles from "@/app/styles.module.css";
+'use client';
+import { useEffect, useState, useCallback } from 'react';
+import { RecipeResult } from '@/types/RecipeResponseType';
+import RecipeCard from '@/components/RecipeCard/RecipeCard';
+import styles from '@/app/styles.module.css';
 
 const SavedRecipesPage = () => {
     const [savedRecipes, setSavedRecipes] = useState<RecipeResult[]>([]);
@@ -14,9 +14,8 @@ const SavedRecipesPage = () => {
             const response = await fetch('/api/getSavedRecipes');
             if (response.ok) {
                 const recipes = await response.json();
-                
+
                 setSavedRecipes(recipes);
-                
             } else {
                 console.error('Failed to fetch saved recipes');
             }
@@ -28,22 +27,15 @@ const SavedRecipesPage = () => {
     // Fetch saved recipes on page load
     useEffect(() => {
         fetchSavedRecipes();
-        
     }, []);
-    
-    
 
     return (
-        
         <div className={styles.container}>
             <h1>Your Saved Recipes</h1>
             <div className={styles.recipes}>
                 {savedRecipes.length > 0 ? (
                     savedRecipes.map((recipe, key) => (
-                        
-                        
-                        <RecipeCard key={key} recipe={recipe} onSave={() => {}} />
-                        
+                        <RecipeCard key={key} recipe={recipe} />
                     ))
                 ) : (
                     <h2>No saved recipes found.</h2>
