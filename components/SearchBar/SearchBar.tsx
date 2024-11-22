@@ -145,12 +145,28 @@ export default function Search({
             {advancedSearch ? (
                 <div
                     style={{
+                        position: "relative",
                         width: "100%",
                         display: "flex",
                         gap: "10px",
                         justifyContent: "center",
+                        alignItems: "center",
                     }}
                 >
+                    <p
+                        style={{
+                            position: "absolute",
+                            left: "1rem",
+                            color: "#e36635",
+                            cursor: "pointer",
+                            height: "auto",
+                        }}
+                        onClick={() => {
+                            setAdvancedSearch(false);
+                        }}
+                    >
+                        x
+                    </p>
                     <button
                         onClick={() => setDietModalVisible(true)}
                         className={styles.button}
