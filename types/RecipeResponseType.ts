@@ -2,7 +2,7 @@
  export type RecipeResult = {
       title: string
        recipe:any,
-       ingredients:Ingredients,
+       ingredients?:Ingredients[],//marked as optional for type compatability
          uri: string,
          label:string,
          image:string,
@@ -13,7 +13,7 @@
          healthLabels: string[],
          ingredientLines: string[]
          isPrivate: boolean;
-         link:string
+      link?:string;
  }
 
  export type Ingredients = {
