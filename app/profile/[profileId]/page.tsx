@@ -23,11 +23,12 @@ const Profile = () => {
         if (user) {
             const fetchProfile = async () => {
                 if (user.id === profileId) {
+                    console.log("NOW");
                     const response = await fetch("/api/userProfile");
                     if (response.ok) {
                         const data = await response.json();
                         const { user, savedRecipes } = data;
-                        setProfile(data);
+                        setProfile(user);
                         setSavedRecipes(savedRecipes);
                     }
                 } else {
