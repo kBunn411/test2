@@ -1,4 +1,5 @@
 "use client";
+
 import { RecipeResult } from "@/types/RecipeResponseType";
 import { searchRecipes } from "@/utils/fetchRecipes";
 import { useEffect, useState, useCallback } from "react";
@@ -12,42 +13,39 @@ const RandomPage = () => {
     const saveRecipe = useCallback(async (recipe: RecipeResult) => {
         try {
             let isPrivate = false; // Default to public
-
-
             while (true) {
-                const message = prompt("Would you like the recipe to be private or public? \nType in private or public");
-                
+                const message = prompt(
+                    "Would you like the recipe to be private or public? \nType in private or public"
+                );
                 if (message === null) {
-                    alert('Recipe saving canceled');
-                    return; 
-                }
-                else if (message.toLowerCase() === "public") {
+                    alert("Recipe saving canceled");
+                    return;
+                } else if (message.toLowerCase() === "public") {
                     isPrivate = false;
                     break;
-                }
-                 else if (message.toLowerCase() === "private") {
+                } else if (message.toLowerCase() === "private") {
                     isPrivate = true;
-                    break; 
+                    break;
                 } else {
                     alert('Please enter either "public" or "private"');
                 }
             }
-            const response = await fetch('/api/saveRecipe', {
-                method: 'POST',
+            const response = await fetch("/api/saveRecipe", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ recipe }),
             });
             const result = await response.json();
             if (response.ok) {
-                alert('Recipe saved successfully!');
+                alert("Recipe saved successfully!");
             } else {
-                alert('Failed to save recipe');
+                alert("Failed to save recipe");
                 console.error(result);
             }
         } catch (error) {
-            console.error('Error saving recipe:', error);
+            console.error("Error saving recipe:", error);
         }
     }, []);
 
@@ -55,11 +53,13 @@ const RandomPage = () => {
         const effect = async () => {
             const recipeResult = await searchRecipes();
             if (recipeResult) {
-                setRecipes(recipeResult.map((result: any) => ({
-                    title: result.recipe.label,
-                    image: result.recipe.image,
-                    link: result.recipe.shareAs
-                })));
+                setRecipes(
+                    recipeResult.map((result: any) => ({
+                        label: result.recipe.label,
+                        image: result.recipe.image,
+                        uri: result.recipe.uri, 
+                    }))
+                );
             }
         };
         effect();
@@ -77,7 +77,6 @@ const RandomPage = () => {
                 )}
             </div>
         </div>
-        
     );
 };
 

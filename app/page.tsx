@@ -53,7 +53,7 @@ export default function Home() {
                 const formattedRecipes = recipeResult.map((result: any) => ({
                     label: result.recipe.label,
                     image: result.recipe.image,
-                    link: result.recipe.shareAs,
+                    uri: result.recipe.uri,
                     dietLabels: result.recipe.dietLabels || []
                 }));
                 setRecipes(formattedRecipes);
