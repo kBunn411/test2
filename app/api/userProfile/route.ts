@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connect } from '@/libs/db';  // Make sure your db connection file is correct
 import User from '@/libs/models/user.model';  // Make sure the path to your user model is correct
 import { getAuth } from '@clerk/nextjs/server';
+import SavedRecipe from '@/libs/models/savedRecipe.model';
 
 export async function GET(req: NextRequest) {
     try {
@@ -15,13 +16,14 @@ export async function GET(req: NextRequest) {
 
         // Fetch the user profile from MongoDB based on userId (chefID or userId)
         const user = await User.findOne({ chefID: userId }).exec();
+        const savedRecipes = await SavedRecipe.find({ userId });
         console.log(user)
 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        return NextResponse.json(user);
+        return NextResponse.json({user,savedRecipes}, {status:200});
     } catch (error) {
         console.error('Error fetching user data:', error);
         return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 });
