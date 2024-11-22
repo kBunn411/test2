@@ -6,7 +6,6 @@ import { RecipeResult } from '@/types/RecipeResponseType';
 import RecipeCard from '@/components/RecipeCard';
 import SearchBar from '@/components/SearchBar';
 import { useUser } from "@clerk/nextjs";
-import recipeCard from "@/components/RecipeCard";
 
 
 export default function Home() {
@@ -113,7 +112,8 @@ export default function Home() {
 
 
     //Function to add to Meal PLanner
-    const addToMealPlan = useCallback(async (recipe: { uri: any; label: any; image: any; link: any; }) => {
+    //(async (recipe: { uri: any; label: any; image: any; link: any; })
+    const addToMealPlan = useCallback(async (recipe: RecipeResult) => {
         if (!userId) {
             alert("You must be logged in to add to the meal planner!");
             return;
