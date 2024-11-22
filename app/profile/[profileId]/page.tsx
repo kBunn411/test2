@@ -10,7 +10,7 @@ import RecipeCard from "@/components/RecipeCard/RecipeCard";
 
 const Profile = () => {
     const router = useRouter();
-    const profileId = useParams().userId;
+    const profileId = useParams().profileId;
     const { isLoaded, isSignedIn, user } = useUser(); // Retrieve authenticated user data from Clerk
     const [profile, setProfile] = useState<any>(null); // State to store user profile data
     const [formData, setFormData] = useState<any>({}); // State to handle form input changes
@@ -22,11 +22,20 @@ const Profile = () => {
     useEffect(() => {
         if (user) {
             const fetchProfile = async () => {
-                const response = await fetch("/api/userProfile");
-                if (response.ok) {
-                    const data = await response.json();
-                    setProfile(data);
-                    setFormData(data);
+                if (user.id === profileId) {
+                    const response = await fetch("/api/userProfile");
+                    if (response.ok) {
+                        const data = await response.json();
+                        setProfile(data);
+                        setFormData(data);
+                    }
+                } else {
+                    const response = await fetch(
+                        `/api/publicProfile?profileId=${profileId}`
+                    );
+                    const { user, savedRecipes } = await response.json();
+                    setProfile(user);
+                    setSavedRecipes(savedRecipes);
                 }
             };
             fetchProfile();
@@ -84,6 +93,9 @@ const Profile = () => {
     // Function to fetch saved recipes
     useEffect(() => {
         const effect = async () => {
+            if (user?.id !== profileId) {
+                return;
+            }
             try {
                 const response = await fetch("/api/getSavedRecipes");
                 if (response.ok) {
