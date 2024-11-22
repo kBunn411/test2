@@ -83,7 +83,7 @@ const Navbar = () => {
                 </button>
                 <SignedOut>
                     <SignInButton>
-                        <button className={styles.authButton}>Sign In</button>
+                        <button className={styles.button}>Sign In</button>
                     </SignInButton>
                 </SignedOut>
                 <SignedIn>
