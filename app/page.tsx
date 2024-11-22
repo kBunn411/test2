@@ -6,7 +6,6 @@ import { RecipeResult } from '@/types/RecipeResponseType';
 import RecipeCard from '@/components/RecipeCard';
 import SearchBar from '@/components/SearchBar';
 import { useUser } from "@clerk/nextjs";
-import recipeCard from "@/components/RecipeCard";
 
 
 export default function Home() {

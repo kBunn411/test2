@@ -39,26 +39,10 @@ export default function MealPlanner() {
         );
     };
 
-
-    {/*<div style={{display: "flex", flexWrap: "wrap", gap: "10px"}}>
-                {getMealsForDate(selectedDate).map((meal, index) => (
-                    <RecipeCard
-                        key={index}
-                        recipe={{
-                            label: meal.recipeName,
-                            image: meal.image,
-                            uri: meal.recipeId,
-                            source: meal.source,
-                        }}
-                        onAddToMealPlan={() => {} /* No need for this in the meal planner */}
-    //onSave={() => {} /* Optionally, disable saving */}
-    ///>
-//))}
-//</div>*/}
     return (
         <div>
             <h1>Meal Planner</h1>
-            <Calendar value={selectedDate} onChange={setSelectedDate}/>
+            <Calendar value={selectedDate} onChange={setSelectedDate} className={styles.customCalendar}/>
             <h2>Meals for {selectedDate.toDateString()}</h2>
 
             <div
@@ -82,8 +66,6 @@ export default function MealPlanner() {
                     />
                 ))}
             </div>
-
-
         </div>
     );
 }
