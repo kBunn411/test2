@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useCallback } from 'react';
-import styles from '../app/styles.module.css';
+import styles from './searchbar.module.css';
 
 interface SearchProps {
   onSubmitSearch: (ingredients: string, diet?: string[], health?: string[]) => void;
