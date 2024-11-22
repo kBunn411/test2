@@ -13,6 +13,7 @@
          healthLabels: string[],
          ingredientLines: string[]
          isPrivate: boolean;
+         link:string
  }
 
  export type Ingredients = {
