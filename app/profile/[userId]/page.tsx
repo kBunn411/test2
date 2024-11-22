@@ -100,8 +100,6 @@ const Profile = () => {
         effect();
     }, []);
 
-    console.log(user, profile, savedRecipes);
-
     // Show loading state while fetching user data
     if (!user) {
         return null;

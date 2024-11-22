@@ -28,7 +28,6 @@ export default function Generate() {
 
             if (output) {
                 const splitOutput = output.content.split("\n");
-                console.log(splitOutput);
                 setResponseContent(splitOutput); // Update with the assistant's latest response
             }
         } catch (error) {
