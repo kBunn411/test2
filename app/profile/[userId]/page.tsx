@@ -1,12 +1,12 @@
-'use client'; // Ensure this is a client-side component
+"use client"; // Ensure this is a client-side component
 
-import { useCallback, useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs'; // Clerk's React hook to access the authenticated user
-import styles from '@/app/profile/profile.module.css';
-import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { RecipeResult } from '@/types/RecipeResponseType';
-import RecipeCard from '@/components/RecipeCard/RecipeCard';
+import { useCallback, useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs"; // Clerk's React hook to access the authenticated user
+import styles from "@/app/profile/profile.module.css";
+import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
+import { RecipeResult } from "@/types/RecipeResponseType";
+import RecipeCard from "@/components/RecipeCard/RecipeCard";
 
 const Profile = () => {
     const router = useRouter();
@@ -22,7 +22,7 @@ const Profile = () => {
     useEffect(() => {
         if (user) {
             const fetchProfile = async () => {
-                const response = await fetch('/api/userProfile');
+                const response = await fetch("/api/userProfile");
                 if (response.ok) {
                     const data = await response.json();
                     setProfile(data);
@@ -40,8 +40,8 @@ const Profile = () => {
         const { name, value } = e.target;
         setFormData((prev: any) => {
             // Handle social media fields specifically
-            if (name.startsWith('socialMedia.')) {
-                const platform = name.split('.')[1];
+            if (name.startsWith("socialMedia.")) {
+                const platform = name.split(".")[1];
                 return {
                     ...prev,
                     socialMedia: {
@@ -55,7 +55,7 @@ const Profile = () => {
     };
 
     const replaceImage = () => {
-        alert('Image replace coming soon');
+        alert("Image replace coming soon");
         //user?.setProfileImage({file:{upload file}})
     };
 
@@ -63,10 +63,10 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const response = await fetch('/api/userProfile', {
-            method: 'PUT',
+        const response = await fetch("/api/userProfile", {
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(formData),
         });
@@ -75,9 +75,9 @@ const Profile = () => {
             const updatedUser = await response.json();
             setProfile(updatedUser); // Update profile with the latest data
             setIsEditing(false); // Exit edit mode
-            alert('Profile updated successfully!');
+            alert("Profile updated successfully!");
         } else {
-            alert('Failed to update profile.');
+            alert("Failed to update profile.");
         }
     };
 
@@ -85,16 +85,16 @@ const Profile = () => {
     useEffect(() => {
         const effect = async () => {
             try {
-                const response = await fetch('/api/getSavedRecipes');
+                const response = await fetch("/api/getSavedRecipes");
                 if (response.ok) {
                     const recipes = await response.json();
 
                     setSavedRecipes(recipes);
                 } else {
-                    console.error('Failed to fetch saved recipes');
+                    console.error("Failed to fetch saved recipes");
                 }
             } catch (error) {
-                console.error('Error fetching saved recipes:', error);
+                console.error("Error fetching saved recipes:", error);
             }
         };
         effect();
@@ -114,14 +114,14 @@ const Profile = () => {
         <div className={styles.container}>
             <div
                 onClick={() => replaceImage()}
-                style={{ height: '18rem', width: '18rem' }}
+                style={{ height: "18rem", width: "18rem" }}
             >
                 <img
-                    alt={'profileImage'}
+                    alt={"profileImage"}
                     style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "50%",
                     }}
                     src={user.imageUrl}
                 />
@@ -130,10 +130,10 @@ const Profile = () => {
             <p className={styles.bio}>{profile.bio}</p>
             <div
                 style={{
-                    height: '1.8rem',
-                    width: '9rem',
-                    display: 'flex',
-                    justifyContent: 'space-between',
+                    height: "1.8rem",
+                    width: "9rem",
+                    display: "flex",
+                    justifyContent: "space-between",
                 }}
             >
                 <img
@@ -144,7 +144,7 @@ const Profile = () => {
                     onClick={() => {
                         router.push(profile.socialMedia.facebook);
                     }}
-                />{' '}
+                />{" "}
                 <img
                     className={styles.socialMediaIcon}
                     src="/images/yelp.png"
@@ -171,7 +171,9 @@ const Profile = () => {
                         privateView ? recipe.isPrivate : !recipe.isPrivate
                     )
                     .map((recipe, key) => {
-                        return <RecipeCard key={key} recipe={recipe} />;
+                        return (
+                            <RecipeCard key={key} recipe={recipe} planable />
+                        );
                     })}
             </div>
         </div>

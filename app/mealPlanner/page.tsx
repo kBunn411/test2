@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import RecipeCard from "@/components/RecipeCard";
+import RecipeCard from "@/components/RecipeCard/RecipeCard";
 import styles from "./mealPlanner.module.css";
 import MealPlan from "@/libs/models/mealPlan.model";
 import { Ingredients } from "@/types/RecipeResponseType"; // made it optional
@@ -53,7 +53,7 @@ export default function MealPlanner() {
         return mealPlans.filter(
             meal =>
                 new Date(meal.date).toISOString().split("T")[0] ===
-                date.toISOString().split("T")[0]
+                date?.toISOString().split("T")[0]
         );
     };
 
@@ -100,8 +100,7 @@ export default function MealPlanner() {
                             ingredientLines: meal.ingredientLines,
                             isPrivate: meal.isPrivate,
                         }}
-                        //onAddToMealPlan={() => {}}
-                        onSave={() => {}}
+                        saveable
                     />
                 ))}
             </div>

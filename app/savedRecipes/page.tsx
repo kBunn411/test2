@@ -35,7 +35,7 @@ const SavedRecipesPage = () => {
             <div className={styles.recipes}>
                 {savedRecipes.length > 0 ? (
                     savedRecipes.map((recipe, key) => (
-                        <RecipeCard key={key} recipe={recipe} />
+                        <RecipeCard key={key} recipe={recipe} planable />
                     ))
                 ) : (
                     <h2>No saved recipes found.</h2>
