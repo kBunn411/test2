@@ -4,6 +4,7 @@ import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
 import { useUser } from "@clerk/nextjs";
 import { useCallback, useState } from "react";
+import Button from "../Button/Button";
 
 const RecipeCard = ({
     recipe,
@@ -110,25 +111,24 @@ const RecipeCard = ({
         <div className={styles.recipeCard}>
             <img src={recipe.image} alt={recipe.label} />
             <h3>{recipe.label || recipe.title}</h3>
-            <button className={styles.viewButton} onClick={viewRecipeDetails}>
-                View Recipe
-            </button>
-            {saveable && (
-                <button
-                    className={styles.saveButton}
-                    onClick={() => saveRecipe(recipe)}
-                >
-                    Save Recipe
-                </button>
-            )}
-            {planable && (
-                <button
-                    className={styles.saveButton}
-                    onClick={() => addToMealPlan(recipe)}
-                >
-                    Add to Meal Planner
-                </button>
-            )}
+            <div
+                style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+            >
+                <Button text="View Recipe" onClick={viewRecipeDetails} />
+
+                {saveable && (
+                    <Button
+                        onClick={() => saveRecipe(recipe)}
+                        text="Save Recipe"
+                    />
+                )}
+                {planable && (
+                    <Button
+                        text={"Add to Meal Planner"}
+                        onClick={() => addToMealPlan(recipe)}
+                    />
+                )}
+            </div>
         </div>
     );
 };

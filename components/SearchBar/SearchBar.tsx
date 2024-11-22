@@ -239,7 +239,12 @@ export default function Search({
                     className={styles.modalOverlay}
                     onClick={() => setHealthModalVisible(false)}
                 >
-                    <div className={styles.modalContent}>
+                    <div
+                        className={styles.modalContent}
+                        onClick={e => {
+                            e.stopPropagation();
+                        }}
+                    >
                         <h3>Filter Health Labels</h3>
                         {healthLabels.map((label, index) => (
                             <label key={index} className={styles.checkboxLabel}>
