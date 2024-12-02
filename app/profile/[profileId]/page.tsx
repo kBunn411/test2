@@ -23,19 +23,19 @@ const Profile = () => {
         if (user) {
             const fetchProfile = async () => {
                 if (user.id === profileId) {
+                    console.log("NOW");
                     const response = await fetch("/api/userProfile");
-                    if (response.ok) {
-                        const data = await response.json();
-                        setProfile(data);
-                        setFormData(data);
-                    }
+                    const data = await response.json();
+                    setProfile(data.user);
+                    setSavedRecipes(data.recipes);
                 } else {
                     const response = await fetch(
                         `/api/publicProfile?profileId=${profileId}`
                     );
-                    const { user, savedRecipes } = await response.json();
+                    const { user, recipes } = await response.json();
+                    console.log(recipes, user);
                     setProfile(user);
-                    setSavedRecipes(savedRecipes);
+                    setSavedRecipes(recipes);
                 }
             };
             fetchProfile();
@@ -91,102 +91,112 @@ const Profile = () => {
     };
 
     // Function to fetch saved recipes
-    useEffect(() => {
-        const effect = async () => {
-            if (user?.id !== profileId) {
-                return;
-            }
-            try {
-                const response = await fetch("/api/getSavedRecipes");
-                if (response.ok) {
-                    const recipes = await response.json();
+    // useEffect(() => {
+    //     const effect = async () => {
+    //         if (user?.id !== profileId) {
+    //             return;
+    //         }
+    //         try {
+    //             const response = await fetch("/api/getSavedRecipes");
+    //             if (response.ok) {
+    //                 const recipes = await response.json();
 
-                    setSavedRecipes(recipes);
-                } else {
-                    console.error("Failed to fetch saved recipes");
-                }
-            } catch (error) {
-                console.error("Error fetching saved recipes:", error);
-            }
-        };
-        effect();
-    }, []);
+    //                 setSavedRecipes(recipes);
+    //             } else {
+    //                 console.error("Failed to fetch saved recipes");
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching saved recipes:", error);
+    //         }
+    //     };
+    //     effect();
+    // }, []);
+
+    console.log(user);
 
     // Show loading state while fetching user data
-    if (!user) {
+    if (isLoaded && !user) {
         return null;
     }
     if (!profile) {
         return <div>Loading...</div>;
     }
 
-    return (
-        <div className={styles.container}>
-            <div
-                onClick={() => replaceImage()}
-                style={{ height: "18rem", width: "18rem" }}
-            >
-                <img
-                    alt={"profileImage"}
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "50%",
-                    }}
-                    src={user.imageUrl}
-                />
-            </div>
-            <h1 className={styles.name}>{user.username}</h1>
-            <p className={styles.bio}>{profile.bio}</p>
-            <div
-                style={{
-                    height: "1.8rem",
-                    width: "9rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                }}
-            >
-                <img
-                    className={styles.socialMediaIcon}
-                    src="/images/facebook.png"
-                    width={28}
-                    alt="FB"
-                    onClick={() => {
-                        router.push(profile.socialMedia.facebook);
-                    }}
-                />{" "}
-                <img
-                    className={styles.socialMediaIcon}
-                    src="/images/yelp.png"
-                    alt="FB"
-                    width={30}
-                />
-                <img
-                    className={styles.socialMediaIcon}
-                    src="/images/instagram.png"
-                    alt="FB"
-                    width={30}
-                />
-            </div>
-            {user.id === profileId && (
-                <div>
-                    <button onClick={() => setPrivateView(!privateView)}>
-                        View Private Recipes
-                    </button>
+    return isLoaded ? (
+        user && (
+            <div className={styles.container}>
+                <div
+                    onClick={() => replaceImage()}
+                    style={{ height: "18rem", width: "18rem" }}
+                >
+                    <img
+                        alt={"profileImage"}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "50%",
+                        }}
+                        src={user.imageUrl}
+                    />
                 </div>
-            )}
-            <div className={styles.recipes}>
-                {savedRecipes
-                    .filter(recipe =>
-                        privateView ? recipe.isPrivate : !recipe.isPrivate
-                    )
-                    .map((recipe, key) => {
-                        return (
-                            <RecipeCard key={key} recipe={recipe} planable />
-                        );
-                    })}
+                <h1 className={styles.name}>{user.username}</h1>
+                <p className={styles.bio}>{profile.bio}</p>
+                <div
+                    style={{
+                        height: "1.8rem",
+                        width: "9rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <img
+                        className={styles.socialMediaIcon}
+                        src="/images/facebook.png"
+                        width={28}
+                        alt="FB"
+                        onClick={() => {
+                            router.push(profile.socialMedia.facebook);
+                        }}
+                    />{" "}
+                    <img
+                        className={styles.socialMediaIcon}
+                        src="/images/yelp.png"
+                        alt="FB"
+                        width={30}
+                    />
+                    <img
+                        className={styles.socialMediaIcon}
+                        src="/images/instagram.png"
+                        alt="FB"
+                        width={30}
+                    />
+                </div>
+                {user.id === profileId && (
+                    <div>
+                        <button onClick={() => setPrivateView(!privateView)}>
+                            View Private Recipes
+                        </button>
+                    </div>
+                )}
+                <div className={styles.recipes}>
+                    {savedRecipes
+                        .filter(recipe =>
+                            privateView ? recipe.isPrivate : !recipe.isPrivate
+                        )
+                        .map((recipe, key) => {
+                            return (
+                                <RecipeCard
+                                    key={key}
+                                    recipe={recipe}
+                                    planable
+                                />
+                            );
+                        })}
+                </div>
             </div>
-        </div>
+        )
+    ) : (
+        <>STILL LOADING THE PROFILE</>
     );
 };
 
