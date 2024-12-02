@@ -3,6 +3,7 @@ import { RecipeResult } from '@/types/RecipeResponseType';
 import { fetchRecipeByID } from '@/utils/fetchRecipes';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
+import styles from "@/app/styles.module.css";
 
 declare global{
     interface Window {
@@ -120,8 +121,12 @@ export default function RecipeDetails() {
     if (!recipe) return <div>No recipe Found</div>;
 
     return (
-        <div style={{ color: "black", fontSize: "20px", padding: "20px" }}>
-            <img src={recipe.image} alt="Recipe" style={{ maxWidth: "100%", borderRadius: "8px" }} />
+        <div className={styles.recipeDetailsContainer}>
+            <img
+                src={recipe.image}
+                alt="Recipe"
+                style={{ maxWidth: "100%", borderRadius: "8px" }}
+            />
             <h1>{recipe.label}</h1>
             <h2>Ingredients</h2>
             <ul>
@@ -130,7 +135,12 @@ export default function RecipeDetails() {
                 ))}
             </ul>
             <h2>Source</h2>
-            <a href={recipe.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue", textDecoration: "underline" }}>
+            <a
+                href={recipe.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "blue", textDecoration: "underline" }}
+            >
                 View Full Recipe on {recipe.source}
             </a>
 
@@ -143,4 +153,3 @@ export default function RecipeDetails() {
         </div>
     );
 }
-
