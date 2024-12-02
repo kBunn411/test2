@@ -1,11 +1,11 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { RecipeResult } from "@/types/RecipeResponseType";
 import styles from "@/app/styles.module.css";
 import { useUser } from "@clerk/nextjs";
 import { useCallback, useState } from "react";
 import Button from "../Button/Button";
+import { deleteRecipe } from "@/utils/deleteRecipe";
 
 const RecipeCard = ({
     recipe,
@@ -13,33 +13,24 @@ const RecipeCard = ({
     planable,
     deletable,
     onDelete,
-    onView,
 }: {
     recipe: RecipeResult | Partial<RecipeResult>;
     saveable?: boolean;
     planable?: boolean;
     deletable?: boolean;
     onDelete?: (id: string) => void;
-    onView?: () => void; // Add the onView prop
 }) => {
+    const [showVideo, setShowVideo] = useState(false); //video visibility toggle
+    const [videoId, setVideoId] = useState<string | null>(null); //youtube video id
     const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
     const { user } = useUser();
     const router = useRouter();
-    const recipeId = recipe.uri?.split("recipe_")[1]; // Extract recipeId from uri
+    const recipeId = recipe.uri?.split("recipe_")[1];
 
-    // Navigate to recipe details
     const viewRecipeDetails = () => {
-        if (onView) {
-            onView(); // Use the provided onView callback if available
-        } else if (recipeId) {
-            router.push(`/recipeDetails/${recipeId}`); // Default navigation
-        } else {
-            console.error("Invalid recipeId or uri is missing");
-            alert("This recipe cannot be viewed because its ID is missing.");
-        }
+        router.push(`/recipeDetails/${recipeId}`);
     };
 
-    // Save recipe logic
     const saveRecipe = useCallback(
         async (recipe: RecipeResult | Partial<RecipeResult>) => {
             try {
@@ -60,20 +51,20 @@ const RecipeCard = ({
                         isPrivate = true;
                         break;
                     } else {
-                        alert('Please enter either "private" or "public"');
+                        alert('Please enter either "public" or "private"');
                     }
                 }
-
                 const response = await fetch("/api/saveRecipe", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                     body: JSON.stringify({ recipe, isPrivate }),
                 });
-
+                const result = await response.json();
                 if (response.ok) {
                     alert("Recipe saved successfully!");
                 } else {
-                    const result = await response.json();
                     alert("Failed to save recipe");
                     console.error(result);
                 }
@@ -84,7 +75,6 @@ const RecipeCard = ({
         []
     );
 
-    // Add to meal planner logic
     const addToMealPlan = useCallback(
         async (recipe: RecipeResult | Partial<RecipeResult>) => {
             if (!user?.id) {
@@ -108,7 +98,7 @@ const RecipeCard = ({
                         date: new Date(date).toISOString(),
                         userId: user.id,
                         image: recipe.image,
-                        source: recipe?.source || "Unknown Source",
+                        source: recipe?.link || "NO LINK 🥲",
                     }),
                 });
 
@@ -116,47 +106,43 @@ const RecipeCard = ({
 
                 alert("Recipe added to meal plan!");
             } catch (error) {
-                console.error("Error adding recipe to meal plan:", error);
+                console.error(error);
                 alert("Error adding recipe to meal plan.");
             }
         },
-        [recipeId, user?.id]
+        []
     );
 
-    // Delete recipe logic
     const handleDelete = () => {
-        if (recipe.uri && onDelete) {
-            onDelete(recipe.uri); // Use `uri` to identify the recipe for deletion
+        if (recipe.link && onDelete) {
+            onDelete(recipe.link);
         } else {
-            console.error("Recipe uri is undefined or onDelete not provided");
+            console.error("Recipe link is undefined or onDelete not provided");
         }
     };
 
+
     return (
         <div className={styles.recipeCard}>
-            <img src={recipe.image} alt={recipe.label || "Recipe Image"} />
+            <img src={recipe.image} alt={recipe.label} />
             <h3>{recipe.label || recipe.title}</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {/* View Recipe Button */}
+            <div
+                style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+            >
                 <Button text="View Recipe" onClick={viewRecipeDetails} />
 
-                {/* Save Recipe Button */}
                 {saveable && (
                     <Button
                         onClick={() => saveRecipe(recipe)}
                         text="Save Recipe"
                     />
                 )}
-
-                {/* Add to Meal Plan Button */}
                 {planable && (
                     <Button
-                        text="Add to Meal Planner"
+                        text={"Add to Meal Planner"}
                         onClick={() => addToMealPlan(recipe)}
                     />
                 )}
-
-                {/* Delete Recipe Button */}
                 {deletable && (
                     <Button
                         text="❌ Remove"
