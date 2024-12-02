@@ -15,15 +15,16 @@ export async function GET(req: NextRequest) {
         await connect();  // Connect to the database
 
         // Fetch the user profile from MongoDB based on userId (chefID or userId)
+        console.log(userId)
         const user = await User.findOne({ chefID: userId }).exec();
-        const savedRecipes = await SavedRecipe.find({ userId });
-        console.log(user)
+        const recipes = await SavedRecipe.find({userId:userId})
+        console.log(recipes)
 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        return NextResponse.json({user,savedRecipes}, {status:200});
+        return NextResponse.json({user,recipes}, {status:200});
     } catch (error) {
         console.error('Error fetching user data:', error);
         return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 });

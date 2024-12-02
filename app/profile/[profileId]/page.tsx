@@ -25,19 +25,17 @@ const Profile = () => {
                 if (user.id === profileId) {
                     console.log("NOW");
                     const response = await fetch("/api/userProfile");
-                    if (response.ok) {
-                        const data = await response.json();
-                        const { user, savedRecipes } = data;
-                        setProfile(user);
-                        setSavedRecipes(savedRecipes);
-                    }
+                    const data = await response.json();
+                    setProfile(data.user);
+                    setSavedRecipes(data.recipes);
                 } else {
                     const response = await fetch(
                         `/api/publicProfile?profileId=${profileId}`
                     );
-                    const { user, savedRecipes } = await response.json();
+                    const { user, recipes } = await response.json();
+                    console.log(recipes, user);
                     setProfile(user);
-                    setSavedRecipes(savedRecipes);
+                    setSavedRecipes(recipes);
                 }
             };
             fetchProfile();

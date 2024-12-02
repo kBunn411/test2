@@ -18,16 +18,16 @@ export async function GET(req: NextRequest) {
 
         // Fetch the user profile from MongoDB based on userId (chefID or userId)
         const user = await User.findOne({ chefID: profileId }).exec();
-        const savedRecipes = await SavedRecipe.find({ userId:profileId, isPrivate:false });
+        const recipes = await SavedRecipe.find({ userId: profileId, isPrivate:false });
 
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
-        if(!savedRecipes){
+        if(!recipes){
             console.log("user has no public saved recipes!")
         }
 
-        return NextResponse.json({user,savedRecipes}, {status:200});
+        return NextResponse.json({user,recipes}, {status:200});
     } catch (error) {
         console.error('Error fetching user data:', error);
         return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 });

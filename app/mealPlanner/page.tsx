@@ -61,7 +61,9 @@ export default function MealPlanner() {
 
     const deleteMealPlan = async (id: string) => {
         try {
-            const response = await fetch(`/api/mealPlans?id=${id}`, { method: "DELETE" });
+            const response = await fetch(`/api/mealPlans?id=${id}`, {
+                method: "DELETE",
+            });
             if (response.ok) {
                 setMealPlans(prev => prev.filter(meal => meal.recipeId !== id));
                 alert("Meal plan deleted successfully.");
@@ -74,11 +76,12 @@ export default function MealPlanner() {
     };
 
     useEffect(() => {
-        fetchMealPlans();
+        fetchMealPlans(user?.id);
     }, []);
 
     const mealsForDate = mealPlans.filter(
-        meal => new Date(meal.date).toDateString() === selectedDate.toDateString()
+        meal =>
+            new Date(meal.date).toDateString() === selectedDate.toDateString()
     );
 
     return (
