@@ -241,6 +241,13 @@
     left: 20px;
 }
 
+.recipeDetailsContainer {
+    background-color: #fff8dc; 
+    min-height: 100vh; 
+    padding: 20px; 
+    font-family: Arial, sans-serif; 
+}
+
 /* Navbar Styling */
 
 /* Dropdown Menu Styling */

@@ -3,6 +3,7 @@ import { RecipeResult } from '@/types/RecipeResponseType';
 import { fetchRecipeByID } from '@/utils/fetchRecipes';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
+import styles from "@/app/styles.module.css";
 
 declare global{
     interface Window {
@@ -34,26 +35,25 @@ export default function RecipeDetails() {
         fetchRecipeDetails();
     }, [recipeId]);
 
-
     useEffect(() => {
-        //load the yt IFrame Api
-        const loadYoutubeAPI = () => {
+        if (!window.YT || !window.YT.Player) {
             const script = document.createElement('script');
-            script.src = 'https://www.youtube.com/iframe_api';//cifnrim the url since this is just from webstorm
+            script.src = 'https://www.youtube.com/iframe_api';
             script.async = true;
             document.body.appendChild(script);
 
-            window.onYouTubeIframeAPIReady = () =>{
-                setPlayerReady(true);
-            };
-        };
-
-        if (!window.YT){
-            loadYoutubeAPI();
-        } else{
+            script.onload = () => setPlayerReady(true);
+        } else {
             setPlayerReady(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (recipe) {
+            fetchVideo();
+        }
+    }, [recipe]);
+
 
     const fetchVideo = async () => {
         if (!recipe || !recipe.label) return;
@@ -63,8 +63,6 @@ export default function RecipeDetails() {
         const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q=${encodeURIComponent(
             query
         )}&key=${apiKey}`;
-
-        console.log("Line 66) YouTube API Request URL: ", url);
 
         try {
             const response = await fetch(url);
@@ -84,7 +82,7 @@ export default function RecipeDetails() {
                 setVideoId(fetchedVideoId);
 
                 // Fetch additional details
-                fetchVideoDetails(fetchedVideoId);
+                //fetchVideoDetails(fetchedVideoId);
             } else {
                 console.warn("No video found for query:", query);
                 setVideoId(null);
@@ -93,37 +91,6 @@ export default function RecipeDetails() {
             console.error("Error fetching YouTube video:", error);
         }
     };
-
-
-    const fetchVideoDetails = async (videoId: string) => {
-        const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-        const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`;
-
-        try {
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("YouTube API Error (list):", errorData, "Status Code:", response.status);
-                return;
-            }
-
-            const data = await response.json();
-            console.log("YouTube Video Details:", data);
-
-            if (data.items && data.items.length > 0) {
-                setVideoDetails(data.items[0]); // Store the video details
-            } else {
-                console.warn("No details found for videoId:", videoId);
-                setVideoDetails(null);
-            }
-        } catch (error) {
-            console.error("Error fetching YouTube video details:", error);
-            setVideoDetails(null);
-        }
-    };
-
-
     const playVideo = () => {
         if (!playerRef.current || !videoId || !playerReady) return;
 
@@ -149,24 +116,17 @@ export default function RecipeDetails() {
         }
     }, [videoId, playerReady]);
 
-
-    //useEffect(() => {
-      //  const effect = async () => {
-        //    const recipeResult = await fetchRecipeByID(recipeId);
-          //  setRecipe(recipeResult)
-            //setLoading(false)
-            //}
-    
-        //effect();
-    //}, []);
-
     console.log(recipe)
     if (loading) return <div>RECIPE IS LOADING!!</div>;
     if (!recipe) return <div>No recipe Found</div>;
 
     return (
-        <div style={{ color: "black", fontSize: "20px", padding: "20px" }}>
-            <img src={recipe.image} alt="Recipe" style={{ maxWidth: "100%", borderRadius: "8px" }} />
+        <div className={styles.recipeDetailsContainer}>
+            <img
+                src={recipe.image}
+                alt="Recipe"
+                style={{ maxWidth: "100%", borderRadius: "8px" }}
+            />
             <h1>{recipe.label}</h1>
             <h2>Ingredients</h2>
             <ul>
@@ -175,10 +135,21 @@ export default function RecipeDetails() {
                 ))}
             </ul>
             <h2>Source</h2>
-            <a href={recipe.url} target="_blank" rel="noopener noreferrer" style={{ color: "blue", textDecoration: "underline" }}>
+            <a
+                href={recipe.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "blue", textDecoration: "underline" }}
+            >
                 View Full Recipe on {recipe.source}
             </a>
+
+            {videoId && (
+                <div style={{ marginTop: "20px" }}>
+                    <h2>Recipe Video</h2>
+                    <div ref={playerRef}></div>
+                </div>
+            )}
         </div>
     );
 }
-
