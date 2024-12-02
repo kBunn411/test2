@@ -9,7 +9,7 @@ Adding an screenshot or a mockup of your application in action would be nice.
 <img width="1470" alt="Screenshot 2024-10-31 at 4 46 45 PM" src="https://github.com/user-attachments/assets/6f02178a-916e-412c-a60d-84d56cd785b7">
 
 # Link to current website
-https://project-01-super-chef-oqug.vercel.app/
+https://test2-sigma-six.vercel.app/
 
 
 # How to install
