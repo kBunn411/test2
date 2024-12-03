@@ -193,7 +193,7 @@ export default function Search({ onSubmitSearch }: SearchProps) {
                     onClick={() => {
                         setAdvancedSearch(true);
                     }}
-                    style={{ color: "#e36635", cursor: "pointer" }}
+                    style={{ color: "blue", cursor: "pointer" }}
                 >
                     Advanced Search
                 </span>

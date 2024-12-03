@@ -240,7 +240,17 @@ const Profile = () => {
 
                 {user.id === profileId && (
                     <div>
-                        <button onClick={() => setPrivateView(!privateView)}>
+                        <button
+                            style={{
+                                backgroundColor: 'purple',
+                                color: 'white',
+                                padding: '10px 10px',
+                                border: 'none',
+                                borderRadius: '2px',
+                                cursor: 'pointer',
+                                fontSize: '13px'
+                            }}
+                            onClick={() => setPrivateView(!privateView)}>
                             View Private Recipes
                         </button>
                     </div>

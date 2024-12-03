@@ -23,15 +23,15 @@ const events: Event[] = [
     {
         title: 'Recipe Royale',
         date: 'December 15, 2024',
-        description: 'Sign up to compete in the Grand Recipe Royale!',
-        image: 'images/reciperoyale.jpeg',
+        description: 'Sign up to compete in EggLand Recipe Contest!',
+        image: 'images/egglandblue.jpg',
         rules: 'Can not bring same dish as other opponent'
     },
     {
         title: 'Battle Of The Bakers',
         date: 'January 30, 2025',
-        description: 'Have the best pie? Prove It!',
-        image: 'images/bakeoff.jpg',
+        description: 'Are you the Best Baker? Prove It!',
+        image: 'images/bakeoffblue.jpg',
         rules: 'Can not bring same dish as other opponent'
     },
 ];
