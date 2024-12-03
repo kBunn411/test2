@@ -151,7 +151,7 @@
     font-size: 1rem;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: "Comic Sans MS", cursive;
+    font-family: Arial, sans-serif; 
     display: inline-block;
     top: 100%;
     left: 0;
@@ -171,7 +171,7 @@
         transform 0.2s ease,
         box-shadow 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: "Comic Sans MS", cursive;
+    font-family: Arial, sans-serif; 
     display: inline-block;
 }
 
@@ -197,7 +197,7 @@
 .welcomeMessage {
     font-size: 1.2rem;
     color: #333;
-    font-family: "Comic Sans MS", cursive;
+    font-family: Arial, sans-serif; 
     font-weight: bold;
 }
 

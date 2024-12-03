@@ -31,13 +31,15 @@ export async function DELETE(req: NextRequest) {
         }
 
         const { searchParams } = new URL(req.url);
+        console.log(searchParams);
         const id = searchParams.get("id");
+        console.log(id);
 
         if (!id) {
             return NextResponse.json({ error: "Recipe ID is required" }, { status: 400 });
         }
 
-        const deletedRecipe = await SavedRecipe.findOneAndDelete({ userId, link: id });
+        const deletedRecipe = await SavedRecipe.findOneAndDelete({ userId, title: id });
         if (!deletedRecipe) {
             return NextResponse.json({ error: "Saved recipe not found" }, { status: 404 });
         }

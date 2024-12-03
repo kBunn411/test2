@@ -31,9 +31,10 @@ const SavedRecipesPage = () => {
 
     const deleteSavedRecipe = async (id: string) => {
         try {
+            console.log(id);
             const response = await fetch(`/api/getSavedRecipes?id=${id}`, { method: "DELETE" });
             if (response.ok) {
-                setSavedRecipes(prev => prev.filter(recipe => recipe.link !== id));
+                setSavedRecipes(prev => prev.filter(recipe => recipe.title !== id));
                 alert("Recipe deleted successfully.");
             } else {
                 alert("Failed to delete recipe.");
