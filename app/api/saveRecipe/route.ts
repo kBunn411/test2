@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
             userId,
             title: recipe.label,
             image: recipe.image,
-            link: recipe.link,
+            uri: recipe.uri,
             isPrivate: isPrivate
         });
 
