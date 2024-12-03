@@ -25,6 +25,7 @@ const RecipeCard = ({
     const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
     const { user } = useUser();
     const router = useRouter();
+    console.log(recipe);
     const recipeId = recipe.uri?.split("recipe_")[1];
 
     const viewRecipeDetails = () => {
