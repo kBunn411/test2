@@ -7,7 +7,7 @@
     border: none;
     color: white;
     border-radius: 7px;
-    font-family: "Comic Sans MS", cursive;
+    font-family: Arial, sans-serif; 
     transition:
         transform 0.1s ease-in-out,
         box-shadow 0.1s ease-in-out;
