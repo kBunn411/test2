@@ -9,35 +9,16 @@
 }
 
 
-
-
-
-
-
-
 .header {
     text-align: center;
     margin-bottom: 30px;
 }
 
 
-
-
-
-
-
-
 .title {
     font-size: 40px;
     color: darkorange;
 }
-
-
-
-
-
-
-
 
 .cardContainer {
     display: grid;
@@ -49,14 +30,8 @@
 }
 
 
-
-
-
-
-
-
 .eventCard {
-    border: 1px solid #ddd;
+    border: 1px solid whitesmoke;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
@@ -71,31 +46,10 @@
     text-align: center;
 }
 
-
-
-
-
-
-
-
 .eventCard:hover {
     transform: scale(1.05);
     cursor: pointer;
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
 
 
 .eventTitle {
@@ -106,26 +60,12 @@
     text-align: center;
 }
 
-
-
-
-
-
-
-
 .eventDate {
     font-size: 15px;
     color: black;
     font-style: italic;
     text-align: center;
-
-
-
-
 }
-
-
-
 
 .detailsHeader {
     font-size: 1.2em;
@@ -142,21 +82,7 @@
     text-align: center;
     min-height: 165px;
 
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 
 .eventDescription {
     font-size: 15px;
@@ -165,30 +91,17 @@
     margin: 0 0 10px;
 }
 
-
-
-
 .eventRules {
     font-size: 13px;
     color: -moz-mac-chrome-active;
     line-height: 1.4;
 }
 
-
-
-
 .eventImage {
     width: 100%;
     height: 195px;
     object-fit: cover;
 }
-
-
-
-
-
-
-
 
 .signupButton {
     position: absolute;
@@ -199,9 +112,6 @@
     cursor: pointer;
 }
 
-
-
-
 .shareButton {
     position: absolute;
     bottom: 16px;
@@ -210,13 +120,6 @@
     height: auto;
     cursor: pointer;
 }
-
-
-
-
-
-
-
 
 .usernameDisplay {
     margin-top: 16px;
@@ -228,25 +131,11 @@
     text-align: center;
 }
 
-
-
-
-
-
-
-
 .itemInputContainer {
     display: flex;
     align-items: center;
     margin-top: 12px;
 }
-
-
-
-
-
-
-
 
 .itemInput {
     padding: 5px;
@@ -254,13 +143,6 @@
     margin-right: 10px;
     border: 1px solid #ddd;
 }
-
-
-
-
-
-
-
 
 .submitButton {
     padding: 3px 8px;
@@ -273,21 +155,6 @@
     cursor: pointer;
     transition: background-color 0.2s;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .itemDisplay {
     margin-top: 10px;
@@ -314,25 +181,16 @@
     text-align: center;
 }
 
-
-
-
 .calendarDay {
     font-size: 29px;
     line-height: 1.2;
 }
-
-
-
 
 .calendarMonthYear {
     font-size: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-
-
-
 
 .modalOverlay {
     position: fixed;
@@ -347,9 +205,6 @@
     z-index: 1000;
 }
 
-
-
-
 .modal {
     background: white;
     padding: 30px;
@@ -360,26 +215,12 @@
     position: relative;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .modalImage {
     width: 90%;
     height: auto;
     margin-top: 20px;
     border-radius: 8px;
 }
-
-
-
 
 .modalText {
     margin-top: 20px;
@@ -400,9 +241,6 @@
     cursor: pointer;
 }
 
-
-
-
 .copyButton {
     margin-top: 10px;
     padding: 10px;
@@ -412,9 +250,6 @@
     font-size: 17px;
     cursor: pointer;
 }
-
-
-
 
 .copyButton:hover {
     background: coral;
