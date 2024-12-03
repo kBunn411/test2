@@ -51,7 +51,7 @@ const Navbar = () => {
                     <img
                         src="/images/Logo.png"
                         alt="Super Chef Logo"
-                        style={{ height: "30px" }}
+                        style={{ height: "40px" }}
                     />
                     Super-Chef
                 </Link>
