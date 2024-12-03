@@ -25,6 +25,7 @@ const RecipeCard = ({
     const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
     const { user } = useUser();
     const router = useRouter();
+    console.log(recipe);
     const recipeId = recipe.uri?.split("recipe_")[1];
 
     const viewRecipeDetails = () => {
@@ -114,8 +115,8 @@ const RecipeCard = ({
     );
 
     const handleDelete = () => {
-        if (recipe.link && onDelete) {
-            onDelete(recipe.link);
+        if (recipeId && onDelete) {
+            onDelete(recipe.title|| "delete");
         } else {
             console.error("Recipe link is undefined or onDelete not provided");
         }

@@ -116,7 +116,7 @@ export default function MealPlanner() {
                             title: meal.recipeName,
                             recipe: {}, // Placeholder if not used
                             ingredients: meal.ingredients,
-                            uri: meal.recipeId,
+                            uri: `recipe_${meal.recipeId}`,
                             label: meal.recipeName,
                             image: meal.image,
                             imageType: meal.image,

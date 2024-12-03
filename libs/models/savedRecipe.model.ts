@@ -13,7 +13,7 @@ const SavedRecipeSchema = new Schema({
         type: String,
         required: true,
     },
-    link: {
+    uri: {
         type: String,
         required: true,
     },
