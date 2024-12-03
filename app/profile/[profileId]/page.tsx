@@ -17,6 +17,8 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false); // Track whether we're in editing mode
     const [savedRecipes, setSavedRecipes] = useState<RecipeResult[]>([]);
     const [privateView, setPrivateView] = useState(false);
+    const [bioEditMode, setBioEditMode] = useState(false);
+    const [bio, setBio] = useState<string>("");
 
     // Fetch the user profile data from the API
     useEffect(() => {
@@ -28,6 +30,7 @@ const Profile = () => {
                     const data = await response.json();
                     setProfile(data.user);
                     setSavedRecipes(data.recipes);
+                    setBio(data.user?.bio || "");
                 } else {
                     const response = await fetch(
                         `/api/publicProfile?profileId=${profileId}`
@@ -36,6 +39,7 @@ const Profile = () => {
                     console.log(recipes, user);
                     setProfile(user);
                     setSavedRecipes(recipes);
+                    setBio(user?.bio || "");
                 }
             };
             fetchProfile();
@@ -112,6 +116,35 @@ const Profile = () => {
     //     effect();
     // }, []);
 
+    const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setBio(e.target.value);
+    };
+
+    const saveBio = async () => {
+        try {
+            const response = await fetch("/api/userProfile", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ bio }),
+            });
+
+            if (response.ok) {
+                setProfile((prev: any) => ({ ...prev, bio }));
+                setBioEditMode(false);
+                alert("Bio updated");
+            } else {
+                alert("Bio update failed");
+            }
+        } catch (error) {
+            console.error("Error updating bio:", error);
+        }
+    };
+
+    const cancelBioEdit = () => {
+        setBioEditMode(false);
+        setBio(profile.bio || "");
+    };
+
     console.log(user);
 
     // Show loading state while fetching user data
@@ -127,7 +160,7 @@ const Profile = () => {
             <div className={styles.container}>
                 <div
                     onClick={() => replaceImage()}
-                    style={{ height: "18rem", width: "18rem" }}
+                    style={{height: "18rem", width: "18rem"}}
                 >
                     <img
                         alt={"profileImage"}
@@ -154,23 +187,57 @@ const Profile = () => {
                         src="/images/facebook.png"
                         width={28}
                         alt="FB"
-                        onClick={() => {
-                            router.push(profile.socialMedia.facebook);
-                        }}
+                        onClick={() => window.open("https://www.facebook.com", "_blank")}
                     />{" "}
                     <img
                         className={styles.socialMediaIcon}
                         src="/images/yelp.png"
                         alt="FB"
                         width={30}
+                        onClick={() => window.open("https://www.yelp.com", "_blank")}
+
                     />
                     <img
                         className={styles.socialMediaIcon}
                         src="/images/instagram.png"
                         alt="FB"
                         width={30}
+                        onClick={() => window.open("https://www.instagram.com", "_blank")}
                     />
                 </div>
+
+
+                <div className={styles.bioEditBox}>
+                    {bioEditMode ? (
+                        <div>
+            <textarea
+                value={bio}
+                onChange={handleBioChange}
+                className={styles.bioEdit}
+            />
+                            <div>
+                                <button onClick={saveBio} className={styles.saveButton}>
+                                    Save
+                                </button>
+                                <button onClick={cancelBioEdit} className={styles.cancelButton}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            {user.id === profileId && (
+                                <button
+                                    onClick={() => setBioEditMode(true)}
+                                    className={styles.editButton}
+                                >
+                                    Edit Bio
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
+
                 {user.id === profileId && (
                     <div>
                         <button onClick={() => setPrivateView(!privateView)}>

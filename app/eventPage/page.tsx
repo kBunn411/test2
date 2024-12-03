@@ -3,9 +3,6 @@ import React, { useState } from 'react';
 import styles from './event.module.css';
 import { useUser } from '@clerk/clerk-react';
 
-
-
-
 type Event = {
     title: string;
     date: string;
@@ -40,20 +37,6 @@ const events: Event[] = [
 ];
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const EventPage: React.FC = () => {
     const { user } = useUser();
     const [usernames, setUsernames] = useState<(string | null)[]>(Array(events.length).fill(null));
@@ -61,12 +44,6 @@ const EventPage: React.FC = () => {
     const [inputValues, setInputValues] = useState<string[]>(Array(events.length).fill(""));
     const [modalVisible, setModalVisible] = useState(false);
     const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
-
-
-
-
-
-
 
 
     const handleSignUpClick = (index: number) => {
@@ -83,24 +60,11 @@ const EventPage: React.FC = () => {
     };
 
 
-
-
-
-
-
-
     const handleDishInput = (index: number, value: string) => {
         const newInputValues = [...inputValues];
         newInputValues[index] = value;
         setInputValues(newInputValues);
     };
-
-
-
-
-
-
-
 
     const handleDishSubmit = (index: number) => {
         const newItems = [...items];
@@ -109,27 +73,15 @@ const EventPage: React.FC = () => {
     };
 
 
-
-
-
-
-
-
     const handleShareClick = (eventIndex: number) => {
         setCurrentEvent(events[eventIndex]);
         setModalVisible(true);
     };
 
-
-
-
     const closeModal = () => {
         setModalVisible(false);
         setCurrentEvent(null);
     };
-
-
-
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text).then(() => {
@@ -138,25 +90,11 @@ const EventPage: React.FC = () => {
     };
 
 
-
-
-
-
-
-
     return (
         <div className={styles.container}>
             <header className={styles.header}>
                 <h1 className={styles.title}>Upcoming Events</h1>
             </header>
-
-
-
-
-
-
-
-
             <div className={styles.cardContainer}>
                 {events.map((event, index) => (
                     <div key={index} className={styles.eventCard}>
@@ -186,28 +124,15 @@ const EventPage: React.FC = () => {
                                 </div>
                             </div>
 
-
-
-
                             <p className={styles.eventDescription}>{event.description}</p>
                             <p className={styles.eventRules}> Rules: {event.rules}</p>
                         </div>
-
-
-
 
                         {usernames[index] && (
                             <div className={styles.usernameDisplay}>
                                 Attendee: <strong>{usernames[index]}</strong>
                             </div>
                         )}
-
-
-
-
-
-
-
 
                         {usernames[index] && !items[index] && (
                             <div className={styles.itemInputContainer}>
@@ -223,32 +148,16 @@ const EventPage: React.FC = () => {
                             </div>
                         )}
 
-
-
-
                         {items[index] && (
                             <div className={styles.itemDisplay}>
                                 <strong> {usernames[index]}: </strong>{items[index]}
                             </div>
 
-
-
-
-
-
-
-
                         )}
-
-
-
 
                     </div>
                 ))}
             </div>
-
-
-
 
             {modalVisible && currentEvent && (
                 <div className={styles.modalOverlay}>
@@ -276,8 +185,5 @@ const EventPage: React.FC = () => {
         </div>
     );
 };
-
-
-
 
 export default EventPage;
