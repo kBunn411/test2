@@ -62,7 +62,7 @@ export default function Generate() {
             <Button
                 style={{ width: "35%" }}
                 onClick={isLoading ? callGetResponse : () => {}}
-                text={isLoading ? "Loading..." : "Generate"}
+                text={!isLoading ? "Loading..." : "Generate"}
             />
             {responseContent && responseContent.length && (
                 <div
